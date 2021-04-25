@@ -2,9 +2,9 @@
 
 namespace Binomedev\SeoPanel\Tests;
 
+use Binomedev\SeoPanel\SeoPanelServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Binomedev\SeoPanel\SeoPanelServiceProvider;
 
 class TestCase extends Orchestra
 {

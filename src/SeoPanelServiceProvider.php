@@ -2,9 +2,9 @@
 
 namespace Binomedev\SeoPanel;
 
+use Binomedev\SeoPanel\Commands\InstallSeoPanelCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Binomedev\SeoPanel\Commands\InstallSeoPanelCommand;
 
 class SeoPanelServiceProvider extends PackageServiceProvider
 {
