@@ -1,44 +1,30 @@
-# :package_description
+#  Laravel SEO Panel
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/vendor_slug/package_slug.svg?style=flat-square)](https://packagist.org/packages/vendor_slug/package_slug)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/vendor_slug/package_slug/run-tests?label=tests)](https://github.com/vendor_slug/package_slug/actions?query=workflow%3Arun-tests+branch%3Amaster)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/vendor_slug/package_slug/Check%20&%20fix%20styling?label=code%20style)](https://github.com/vendor_slug/package_slug/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amaster)
-[![Total Downloads](https://img.shields.io/packagist/dt/vendor_slug/package_slug.svg?style=flat-square)](https://packagist.org/packages/vendor_slug/package_slug)
+A handy panel to help improve the SEO of your application.
 
-[](delete) 1) manually replace `:author_name, :author_username, auhor@domain.com, :vendor_name, vendor_slug, Vendor Name, :package_name, package_slug, skeleton, Skeleton, :package_description` with their correct values
-[](delete) in `CHANGELOG.md, LICENSE.md, README.md, ExampleTest.php, ModelFactory.php, Skeleton.php, SkeletonCommand.php, SkeletonFacade.php, SkeletonServiceProvider.php, TestCase.php, composer.json, create_skeleton_table.php.stub`
-[](delete) and delete `configure-skeleton.sh`
-
-[](delete) 2) You can also run `./configure-skeleton.sh` to do this automatically.
-
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/package-skeleton-laravel.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/package-skeleton-laravel)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/binomedev/seo_panel.svg?style=flat-square)](https://packagist.org/packages/binomedev/seo_panel)
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/binomedev/seo_panel/run-tests?label=tests)](https://github.com/binomedev/seo_panel/actions?query=workflow%3Arun-tests+branch%3Amaster)
+[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/binomedev/seo_panel/Check%20&%20fix%20styling?label=code%20style)](https://github.com/binomedev/seo_panel/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amaster)
+[![Total Downloads](https://img.shields.io/packagist/dt/binomedev/seo_panel.svg?style=flat-square)](https://packagist.org/packages/binomedev/seo_panel)
 
 ## Installation
 
 You can install the package via composer:
 
 ```bash
-composer require vendor_slug/package_slug
+composer require binomedev/seo_panel
 ```
 
 You can publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --provider="VendorName\Skeleton\SkeletonServiceProvider" --tag="package_slug-migrations"
+php artisan vendor:publish --provider="Binomedev\SeoPanel\SeoPanelServiceProvider" --tag="seo_panel-migrations"
 php artisan migrate
 ```
 
 You can publish the config file with:
 ```bash
-php artisan vendor:publish --provider="VendorName\Skeleton\SkeletonServiceProvider" --tag="package_slug-config"
+php artisan vendor:publish --provider="Binomedev\SeoPanel\SeoPanelServiceProvider" --tag="seo_panel-config"
 ```
 
 This is the contents of the published config file:
@@ -51,8 +37,8 @@ return [
 ## Usage
 
 ```php
-$skeleton = new VendorName\Skeleton();
-echo $skeleton->echoPhrase('Hello, Spatie!');
+$seo_panel = new Binomedev\SeoPanel();
+echo $seo_panel->echoPhrase('Hello, Spatie!');
 ```
 
 ## Testing
@@ -65,6 +51,72 @@ composer test
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
+## Roadmap
+
+### Generic Features
+- Google Analytics Integration (Made Easy)
+- Generate SEO Metatags
+- Automated technical SEO improvements, like canonical URLs and meta tags.
+- Advanced XML sitemaps; making it easy for Google to understand your site structure.
+- Title and meta description templating, for better branding and consistent snippets in the search results.
+- An in-depth Schema.org integration that will increase your chance of getting rich results, by helping search engines to understand your content.
+- Full control over site breadcrumbs, so that users and search engines always know where they are.
+- Faster loading times for your whole website, due to an innovative way of managing data in Laravel.
+- Ping Search Engines: Automatically notify Google & Bing when a sitemap gets updated.
+
+### Content Writing
+- SEO analysis: an invaluable tool while writing SEO-friendly content with the right (focus) keyphrases in mind.
+- Readability analysis: ensures that humans and search engines can read and understand your content.
+- Full language support for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic, Swedish, Hebrew, Hungarian and Turkish.
+- A Google preview, which shows what your listings will look like in the search results. Even on mobile devices!
+- Innovative Schema blocks for the WordPress block editor, so that your FAQ and HowTo content can be shown directly in the search results. Plus a breadcrumbs block to guide your users.
+- Internal linking blocks to easily improve the structure of your content. Easily add a table of contents block, a related links block, a subpages block, or siblings block! Plus, we’ll keep adding these easy-to-add blocks to improve your site structure.
+- Social previews to show you how your content will be shown on Twitter and Facebook.
+- The Insights tool that shows you what your text focuses on. This way you can keep your article in line with your keyphrases.
+- Optimize your content for synonyms and related keyphrases.
+- Optimize your article for different word forms of your keyphrases, as the singular and plural. But also different verb forms, synonyms, and related keyphrases. This makes for more natural content!
+- Automatic internal linking suggestions: write your article and get automatic suggested posts to link to!
+- An orphaned content filter to detect posts that have no links pointing towards them!
+
+### Content/Structure Inspections
+- Common Keywords
+- SEO Title
+- SEO Description
+- H1 Heading
+- H2 Heading
+- Image ALT Attributes
+- Keywords in Title & Description
+- Links Ratio
+- Site Tagline
+- Permalink Structure
+- Focus Keywords 
+- Post Titles Missing Focus Keywords
+
+### Advanced SEO - Sanity Checks
+
+- Search Preview
+- Mobile Search Preview
+- Mobile Snapshot
+- Canonical Tag
+- Noindex Meta 
+- WWW Canonicalization
+- OpenGraph Meta
+- Robots.txt
+- Schema Meta Data
+- Search Console
+- Sitemaps
+- Secure Connection
+
+### Performance Checks
+
+- Image Headers Expire
+- Minify CSS
+- Minify Javascript
+- Page Objects
+- Page Size
+- Response Time
+
+
 ## Contributing
 
 Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
@@ -75,7 +127,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [:author_name](https://github.com/:author_username)
+- [Codrin Axinte](https://github.com/codrin-axinte)
 - [All Contributors](../../contributors)
 
 ## License

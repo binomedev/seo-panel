@@ -1,17 +1,17 @@
 {
-    "name": "vendor_slug/package_slug",
-    "description": ":package_description",
+    "name": "binomedev/seo-panel",
+    "description": "A handy panel to help improving the SEO of your application.",
     "keywords": [
-        ":vendor_name",
+        "binomedev",
         "laravel",
-        "package_slug"
+        "seo-panel"
     ],
-    "homepage": "https://github.com/vendor_slug/package_slug",
+    "homepage": "https://github.com/binomedev/seo_panel",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Codrin Axinte",
+            "email": "codrin.axinte@outlook.com",
             "role": "Developer"
         }
     ],
@@ -30,13 +30,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Binomedev\\SeoPanel\\": "src",
+            "Binomedev\\SeoPanel\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "Binomedev\\SeoPanel\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -50,10 +50,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Binomedev\\SeoPanel\\SeoPanelServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\SkeletonFacade"
+                "SeoPanel": "Binomedev\\SeoPanel\\SeoPanelFacade"
             }
         }
     },
