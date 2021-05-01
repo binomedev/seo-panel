@@ -2,12 +2,16 @@
 
 namespace Binomedev\SeoPanel;
 
+use Binomedev\SeoPanel\Commands\GenerateSitemapCommand;
+use Binomedev\SeoPanel\Inspectors\HttpsInspector;
+use Binomedev\SeoPanel\Inspectors\SitemapInspector;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Binomedev\SeoPanel\Commands\InstallSeoPanelCommand;
+use Binomedev\SeoPanel\Commands\InspectSeoPanelCommand;
 
 class SeoPanelServiceProvider extends PackageServiceProvider
 {
+
     public function configurePackage(Package $package): void
     {
         /*
@@ -20,6 +24,22 @@ class SeoPanelServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews()
             ->hasMigration('create_seo_panel_table')
-            ->hasCommand(InstallSeoPanelCommand::class);
+            ->hasCommands([
+                InspectSeoPanelCommand::class,
+                GenerateSitemapCommand::class,
+            ]);
+    }
+
+    public function packageBooted()
+    {
+        SeoPanelFacade::useInspector([
+            SitemapInspector::class,
+            HttpsInspector::class,
+        ]);
+    }
+
+    public function packageRegistered()
+    {
+        $this->app->singleton(SeoPanel::class);
     }
 }

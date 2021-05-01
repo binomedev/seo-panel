@@ -1,4 +1,4 @@
-#  Laravel SEO Panel
+# Laravel SEO Panel
 
 A handy panel to help improve the SEO of your application.
 
@@ -23,6 +23,7 @@ php artisan migrate
 ```
 
 You can publish the config file with:
+
 ```bash
 php artisan vendor:publish --provider="Binomedev\SeoPanel\SeoPanelServiceProvider" --tag="seo_panel-config"
 ```
@@ -54,68 +55,96 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 ## Roadmap
 
 ### Generic Features
-- Google Analytics Integration (Made Easy)
-- Generate SEO Metatags
-- Automated technical SEO improvements, like canonical URLs and meta tags.
-- Advanced XML sitemaps; making it easy for Google to understand your site structure.
-- Title and meta description templating, for better branding and consistent snippets in the search results.
-- An in-depth Schema.org integration that will increase your chance of getting rich results, by helping search engines to understand your content.
-- Full control over site breadcrumbs, so that users and search engines always know where they are.
-- Faster loading times for your whole website, due to an innovative way of managing data in Laravel.
-- Ping Search Engines: Automatically notify Google & Bing when a sitemap gets updated.
+
+- [ ] Google Analytics Integration (Made Easy)
+- [ ] Generate SEO MetaTags
+- [ ] Automated technical SEO improvements, like canonical URLs and meta tags.
+- [ ] Advanced XML sitemaps; making it easy for Google to understand your site structure.
+- [ ] Title and meta description templating, for better branding and consistent snippets in the search results.
+- [ ] An in-depth Schema.org integration that will increase your chance of getting rich results, by helping search engines
+  to understand your content.
+- [ ] Full control over site breadcrumbs, so that users and search engines always know where they are.
+- [X] Faster loading times for your whole website, due to an innovative way of managing data in Laravel.
+- [ ] Ping Search Engines: Automatically notify Google & Bing when a sitemap gets updated.
 
 ### Content Writing
-- SEO analysis: an invaluable tool while writing SEO-friendly content with the right (focus) keyphrases in mind.
-- Readability analysis: ensures that humans and search engines can read and understand your content.
-- Full language support for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic, Swedish, Hebrew, Hungarian and Turkish.
-- A Google preview, which shows what your listings will look like in the search results. Even on mobile devices!
-- Innovative Schema blocks for the WordPress block editor, so that your FAQ and HowTo content can be shown directly in the search results. Plus a breadcrumbs block to guide your users.
-- Internal linking blocks to easily improve the structure of your content. Easily add a table of contents block, a related links block, a subpages block, or siblings block! Plus, we’ll keep adding these easy-to-add blocks to improve your site structure.
-- Social previews to show you how your content will be shown on Twitter and Facebook.
-- The Insights tool that shows you what your text focuses on. This way you can keep your article in line with your keyphrases.
-- Optimize your content for synonyms and related keyphrases.
-- Optimize your article for different word forms of your keyphrases, as the singular and plural. But also different verb forms, synonyms, and related keyphrases. This makes for more natural content!
-- Automatic internal linking suggestions: write your article and get automatic suggested posts to link to!
-- An orphaned content filter to detect posts that have no links pointing towards them!
+
+- [ ] SEO analysis: an invaluable tool while writing SEO-friendly content with the right (focus) keyphrases in mind.
+- [ ] Readability analysis: ensures that humans and search engines can read and understand your content.
+- [ ] Full language support for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese,
+  Arabic, Swedish, Hebrew, Hungarian and Turkish.
+- [ ] A Google preview, which shows what your listings will look like in the search results. Even on mobile devices!
+- [ ] Innovative Schema blocks for the WordPress block editor, so that your FAQ and HowTo content can be shown directly in
+  the search results. Plus a breadcrumbs block to guide your users.
+- [ ] Internal linking blocks to easily improve the structure of your content. Easily add a table of contents block, a
+  related links block, a subpages block, or siblings block! Plus, we’ll keep adding these easy-to-add blocks to improve
+  your site structure.
+- [ ] Social previews to show you how your content will be shown on Twitter and Facebook.
+- [ ] The Insights tool that shows you what your text focuses on. This way you can keep your article in line with your
+  keyphrases.
+- [ ] Optimize your content for synonyms and related keyphrases.
+- [ ] Optimize your article for different word forms of your keyphrases, as the singular and plural. But also different verb
+  forms, synonyms, and related keyphrases. This makes for more natural content!
+- [ ] Automatic internal linking suggestions: write your article and get automatic suggested posts to link to!
+- [ ] An orphaned content filter to detect posts that have no links pointing towards them!
 
 ### Content/Structure Inspections
-- Common Keywords
-- SEO Title
-- SEO Description
-- H1 Heading
-- H2 Heading
-- Image ALT Attributes
-- Keywords in Title & Description
-- Links Ratio
-- Site Tagline
-- Permalink Structure
-- Focus Keywords 
-- Post Titles Missing Focus Keywords
+
+- [ ] Common Keywords
+- [ ] SEO Title
+- [ ] SEO Description
+- [ ] H1 Heading
+- [ ] H2 Heading
+- [ ] Image ALT Attributes
+- [ ] Keywords in Title & Description
+- [ ] Links Ratio
+- [ ] Site Tagline
+- [ ] Permalink Structure
+- [ ] Focus Keywords
+- [ ] Post Titles Missing Focus Keywords
 
 ### Advanced SEO - Sanity Checks
 
-- Search Preview
-- Mobile Search Preview
-- Mobile Snapshot
-- Canonical Tag
-- Noindex Meta 
-- WWW Canonicalization
-- OpenGraph Meta
-- Robots.txt
-- Schema Meta Data
-- Search Console
-- Sitemaps
-- Secure Connection
+- [ ] Search Preview
+- [ ] Mobile Search Preview
+- [ ] Mobile Snapshot
+- [ ] Canonical Tag
+- [ ] Noindex Meta
+- [ ] WWW Canonicalization
+- [ ] OpenGraph Meta
+- [ ] Robots.txt
+- [ ] Schema Meta Data
+- [ ] Search Console
+- [X] Check if sitemaps exists
+- [X] Secure Connection: Check if website is configured to use https
 
 ### Performance Checks
 
-- Image Headers Expire
-- Minify CSS
-- Minify Javascript
-- Page Objects
-- Page Size
-- Response Time
+- [ ] Image Headers Expire
+- [ ] Minify CSS
+- [ ] Minify Javascript
+- [ ] Page Objects
+- [ ] Page Size
+- [ ] Response Time
 
+## Usage
+
+### Dependencies
+
+- [spatie/laravel-sitemap](https://github.com/spatie/laravel-sitemap)
+- [artesaos/seotools](https://github.com/artesaos/seotools)
+
+### Schedules
+
+```php
+// app/Console/Kernel.php
+function schedule(Schedule $schedule)
+{
+    //...
+    $schedule->command('seo:generate-sitemap')->daily();
+    // ...
+}
+```
 
 ## Contributing
 
@@ -129,6 +158,9 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 - [Codrin Axinte](https://github.com/codrin-axinte)
 - [All Contributors](../../contributors)
+
+## Research
+ - [Rank Math Demo](https://demo.rankmath.com/wp-login.php)
 
 ## License
 
