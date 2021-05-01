@@ -3,15 +3,14 @@
 namespace Binomedev\SeoPanel;
 
 use Binomedev\SeoPanel\Commands\GenerateSitemapCommand;
+use Binomedev\SeoPanel\Commands\InspectSeoPanelCommand;
 use Binomedev\SeoPanel\Inspectors\HttpsInspector;
 use Binomedev\SeoPanel\Inspectors\SitemapInspector;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Binomedev\SeoPanel\Commands\InspectSeoPanelCommand;
 
 class SeoPanelServiceProvider extends PackageServiceProvider
 {
-
     public function configurePackage(Package $package): void
     {
         /*

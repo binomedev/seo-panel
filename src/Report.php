@@ -3,7 +3,6 @@
 
 namespace Binomedev\SeoPanel;
 
-
 class Report
 {
     protected string $name;
@@ -31,7 +30,7 @@ class Report
 
     public function hasFailed(): bool
     {
-        return !$this->status;
+        return ! $this->status;
     }
 
     public function hasPassed(): bool
@@ -46,17 +45,18 @@ class Report
         return $this;
     }
 
-    public function message(string $message = null): string|Report
+    public function message(string $message = null): string | Report
     {
         if (is_null($message)) {
             return $this->message;
         }
 
         $this->message = $message;
+
         return $this;
     }
 
-    public function help(string $help = null): string|Report
+    public function help(string $help = null): string | Report
     {
         if (is_null($help)) {
             return $this->help;

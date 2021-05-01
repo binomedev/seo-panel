@@ -3,14 +3,13 @@
 
 namespace Binomedev\SeoPanel\Inspectors;
 
-
 use Binomedev\SeoPanel\Report;
 
 interface Inspects
 {
-    function inspect() : Report;
+    public function inspect() : Report;
 
-    function name(): string;
+    public function name(): string;
 
-    function help(): string;
+    public function help(): string;
 }

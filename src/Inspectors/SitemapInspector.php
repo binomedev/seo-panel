@@ -3,14 +3,12 @@
 
 namespace Binomedev\SeoPanel\Inspectors;
 
-
 use Binomedev\SeoPanel\Report;
 use Illuminate\Support\Facades\Http;
 
 class SitemapInspector extends Inspector
 {
-
-    function inspect(): Report
+    public function inspect(): Report
     {
         $report = new Report('Sitemap Inspector');
 
@@ -32,13 +30,11 @@ class SitemapInspector extends Inspector
 
     private function checkFileNotExists()
     {
-        return !file_exists(public_path('sitemap.xml'));
+        return ! file_exists(public_path('sitemap.xml'));
     }
 
     private function checkIfCannotBeAccessed()
     {
-        return !Http::get(url('/sitemap.xml'))->ok();
+        return ! Http::get(url('/sitemap.xml'))->ok();
     }
-
-
 }

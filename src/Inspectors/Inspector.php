@@ -3,17 +3,14 @@
 
 namespace Binomedev\SeoPanel\Inspectors;
 
-
 abstract class Inspector implements Inspects
 {
-
-
-    function name(): string
+    public function name(): string
     {
         return '';
     }
 
-    function help(): string
+    public function help(): string
     {
         return '';
     }

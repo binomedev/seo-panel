@@ -8,7 +8,7 @@ class SeoPanel
 {
     private array $inspectors = [];
 
-    public function useInspector(string|array $inspectors): SeoPanel
+    public function useInspector(string | array $inspectors): SeoPanel
     {
         if (is_array($inspectors)) {
             $this->inspectors = array_merge($this->inspectors, $inspectors);
