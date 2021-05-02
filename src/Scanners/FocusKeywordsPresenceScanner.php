@@ -25,11 +25,11 @@ class FocusKeywordsPresenceScanner extends Scanner
         return $this->scanForPresence($model, $meta);
     }
 
-    private function scanForPresence($model, $meta)
+    private function scanForPresence(CanBeSeoAnalyzed $model, $meta)
     {
         $keywords = explode(',', $meta->keywords);
-        $title = $model->getSeoField('title');
-        $slug = $model->getSeoField('slug');
+        $title = $model->getSeoAttribute('title');
+        $slug = $model->getSeoAttribute('slug');
         $seo_title = $meta->title;
         $seo_description = $meta->description;
         $tests = compact('title', 'slug', 'seo_description', 'seo_title');

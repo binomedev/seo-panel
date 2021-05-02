@@ -14,7 +14,7 @@ class SlugLengthScanner extends Scanner
     function scan(CanBeSeoAnalyzed $model): Report
     {
         $report = Report::make('Slug Length')->message('Slug length should be less than 76 characters');
-        $slug = $model->getSeoField('slug');
+        $slug = $model->getSeoAttribute('slug');
 
         // Check slug length to be less than 76 characters
         $passed = strlen($slug) <= 76;

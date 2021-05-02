@@ -27,6 +27,11 @@ trait HasSeo
         return $this->{$field . 'Field'};
     }
 
+    public function getSeoAttribute($field)
+    {
+        return $this->getAttribute($this->getSeoField($field));
+    }
+
     protected function setSeoField($field, $value)
     {
         $this->{$field . 'Field'} = $value;

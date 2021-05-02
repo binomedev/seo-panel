@@ -20,12 +20,15 @@ class ContentMinLengthScanner extends Scanner
         $report = Report::make('Content Min Length')
             ->message('Content should be at least 600 characters long.');
 
-        $content = $this->cleanContent($model->getSeoField('content'));
+        $content = $this->cleanContent($model->getSeoAttribute('content'));
 
         // Check if content is at least 600 characters excluding html and any syntax that shouldn't count
-        $passed = strlen($content) > 600;
+        $count = strlen($content);
+        $report->add('count', $count);
 
-        return $report->status(passed: $passed);
+        $passed = $count > 600;
+
+        return $report->status($passed);
     }
 
     private function cleanContent($content)
@@ -34,16 +37,15 @@ class ContentMinLengthScanner extends Scanner
 
         return $pipeline->send($content)
             ->through([
-                [$this, 'cleanHtml'],
+                // Strip all html tags, to measure only the real content
+                function ($content, \Closure $next) {
+                    $content = strip_tags(htmlspecialchars_decode($content));
+
+                    return $next($content);
+                },
+
                 ...$this->contentCleaners
             ])
             ->thenReturn();
-    }
-
-    private function stripHtml($content, \Closure $next)
-    {
-        $content = strip_tags(htmlspecialchars_decode($content));
-
-        return $next($content);
     }
 }
