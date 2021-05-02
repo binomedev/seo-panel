@@ -9,6 +9,11 @@ A handy panel to help improve the SEO of your application.
 
 ## Installation
 
+### Dependencies
+
+- [spatie/laravel-sitemap](https://github.com/spatie/laravel-sitemap)
+- [artesaos/seotools](https://github.com/artesaos/seotools)
+
 You can install the package via composer:
 
 ```bash
@@ -42,6 +47,29 @@ $seo_panel = new Binomedev\SeoPanel();
 echo $seo_panel->echoPhrase('Hello, Spatie!');
 ```
 
+### Schedules
+
+```php
+// app/Console/Kernel.php
+function schedule(Schedule $schedule)
+{
+    //...
+    $schedule->command('seo:generate-sitemap')->daily();
+    // ...
+}
+```
+
+### Glossary
+
+#### Inspectors
+
+Inspectors are used to search for generic issues that may impact seo, such as: not using https, missing sitemap, speed
+loading, etc
+
+#### Scanners
+
+Scanners are used to search for seo issues within a resource/model's fields, such as: title, slug, content, etc.
+
 ## Testing
 
 ```bash
@@ -61,8 +89,8 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 - [ ] Automated technical SEO improvements, like canonical URLs and meta tags.
 - [ ] Advanced XML sitemaps; making it easy for Google to understand your site structure.
 - [ ] Title and meta description templating, for better branding and consistent snippets in the search results.
-- [ ] An in-depth Schema.org integration that will increase your chance of getting rich results, by helping search engines
-  to understand your content.
+- [ ] An in-depth Schema.org integration that will increase your chance of getting rich results, by helping search
+  engines to understand your content.
 - [ ] Full control over site breadcrumbs, so that users and search engines always know where they are.
 - [X] Faster loading times for your whole website, due to an innovative way of managing data in Laravel.
 - [ ] Ping Search Engines: Automatically notify Google & Bing when a sitemap gets updated.
@@ -71,11 +99,11 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 - [ ] SEO analysis: an invaluable tool while writing SEO-friendly content with the right (focus) keyphrases in mind.
 - [ ] Readability analysis: ensures that humans and search engines can read and understand your content.
-- [ ] Full language support for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese,
-  Arabic, Swedish, Hebrew, Hungarian and Turkish.
+- [ ] Full language support for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish,
+  Portuguese, Arabic, Swedish, Hebrew, Hungarian and Turkish.
 - [ ] A Google preview, which shows what your listings will look like in the search results. Even on mobile devices!
-- [ ] Innovative Schema blocks for the WordPress block editor, so that your FAQ and HowTo content can be shown directly in
-  the search results. Plus a breadcrumbs block to guide your users.
+- [ ] Innovative Schema blocks for the WordPress block editor, so that your FAQ and HowTo content can be shown directly
+  in the search results. Plus a breadcrumbs block to guide your users.
 - [ ] Internal linking blocks to easily improve the structure of your content. Easily add a table of contents block, a
   related links block, a subpages block, or siblings block! Plus, we’ll keep adding these easy-to-add blocks to improve
   your site structure.
@@ -83,8 +111,8 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 - [ ] The Insights tool that shows you what your text focuses on. This way you can keep your article in line with your
   keyphrases.
 - [ ] Optimize your content for synonyms and related keyphrases.
-- [ ] Optimize your article for different word forms of your keyphrases, as the singular and plural. But also different verb
-  forms, synonyms, and related keyphrases. This makes for more natural content!
+- [ ] Optimize your article for different word forms of your keyphrases, as the singular and plural. But also different
+  verb forms, synonyms, and related keyphrases. This makes for more natural content!
 - [ ] Automatic internal linking suggestions: write your article and get automatic suggested posts to link to!
 - [ ] An orphaned content filter to detect posts that have no links pointing towards them!
 
@@ -127,35 +155,11 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 - [ ] Page Size
 - [ ] Response Time
 
-## Usage
+### Service
 
-## Structure
-
-### Inspectors
-
-Inspectors are used to search for generic issues that may impact seo, such as: not using https, missing sitemap, speed loading, etc 
-
-### Scanners 
-
-Scanners are used to search for seo issues within a resource content.
-
-
-### Dependencies
-
-- [spatie/laravel-sitemap](https://github.com/spatie/laravel-sitemap)
-- [artesaos/seotools](https://github.com/artesaos/seotools)
-
-### Schedules
-
-```php
-// app/Console/Kernel.php
-function schedule(Schedule $schedule)
-{
-    //...
-    $schedule->command('seo:generate-sitemap')->daily();
-    // ...
-}
-```
+- [ ] Run scans on our server using the API. 
+  This helps people with low-end servers (Shared Hosting) or people who don't have an admin
+  panel.
 
 ## Contributing
 
@@ -171,7 +175,8 @@ Please review [our security policy](../../security/policy) on how to report secu
 - [All Contributors](../../contributors)
 
 ## Research
- - [Rank Math Demo](https://demo.rankmath.com/wp-login.php)
+
+- [Rank Math Demo](https://demo.rankmath.com/wp-login.php)
 
 ## License
 
