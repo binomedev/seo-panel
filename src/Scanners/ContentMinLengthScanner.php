@@ -13,10 +13,8 @@ class ContentMinLengthScanner extends Scanner
 {
     private $contentCleaners = [];
 
-
     function scan(CanBeSeoAnalyzed $model): Report
     {
-
         $report = Report::make('Content Min Length')
             ->message('Content should be at least 600 characters long.');
 

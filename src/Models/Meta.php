@@ -20,4 +20,9 @@ class Meta extends Model
     {
         return $this->morphTo();
     }
+
+    public function getKeywordsListAttribute()
+    {
+        return explode(',', $this->keywords);
+    }
 }

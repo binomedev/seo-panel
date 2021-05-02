@@ -91,17 +91,17 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 ### Content/Structure Inspections
 
 - [ ] Common Keywords
-- [ ] SEO Title
-- [ ] SEO Description
+- [X] SEO Title
+- [X] SEO Description
 - [ ] H1 Heading
 - [ ] H2 Heading
 - [ ] Image ALT Attributes
-- [ ] Keywords in Title & Description
+- [X] Keywords in Title & Description
 - [ ] Links Ratio
 - [ ] Site Tagline
 - [ ] Permalink Structure
-- [ ] Focus Keywords
-- [ ] Post Titles Missing Focus Keywords
+- [X] Focus Keywords
+- [X] Post Titles Missing Focus Keywords
 
 ### Advanced SEO - Sanity Checks
 
