@@ -55,7 +55,7 @@
                 "Binomedev\\SeoPanel\\SeoPanelServiceProvider"
             ],
             "aliases": {
-                "SeoPanel": "Binomedev\\SeoPanel\\SeoPanelFacade"
+                "Seo": "Binomedev\\SeoPanel\\SeoFacade"
             }
         }
     },

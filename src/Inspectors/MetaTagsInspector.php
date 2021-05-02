@@ -4,7 +4,10 @@
 namespace Binomedev\SeoPanel\Inspectors;
 
 
+use App\Models\Post;
+use Binomedev\SeoPanel\Inspector;
 use Binomedev\SeoPanel\Report;
+use Binomedev\SeoPanel\SeoFacade;
 
 class MetaTagsInspector extends Inspector
 {

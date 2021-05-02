@@ -4,6 +4,7 @@
 namespace Binomedev\SeoPanel\Inspectors;
 
 
+use Binomedev\SeoPanel\Inspector;
 use Binomedev\SeoPanel\Report;
 use Illuminate\Support\Facades\Http;
 

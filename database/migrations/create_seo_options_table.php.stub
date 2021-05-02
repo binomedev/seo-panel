@@ -1,0 +1,24 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateSeoOptionsTable extends Migration
+{
+    public function up()
+    {
+        Schema::create('seo_options_table', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+            $table->string('value', 500)->nullable();
+            $table->json('meta')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    public function down() {
+
+        Schema::dropIfExists('seo_options_table');
+    }
+}

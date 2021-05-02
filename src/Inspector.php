@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Binomedev\SeoPanel\Inspectors;
+namespace Binomedev\SeoPanel;
 
 
-abstract class Inspector implements Inspects
+abstract class Inspector implements CanInspect
 {
 
 

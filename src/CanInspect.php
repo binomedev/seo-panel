@@ -1,12 +1,10 @@
 <?php
 
 
-namespace Binomedev\SeoPanel\Inspectors;
+namespace Binomedev\SeoPanel;
 
 
-use Binomedev\SeoPanel\Report;
-
-interface Inspects
+interface CanInspect
 {
     function inspect() : Report;
 

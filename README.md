@@ -129,6 +129,17 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Usage
 
+## Structure
+
+### Inspectors
+
+Inspectors are used to search for generic issues that may impact seo, such as: not using https, missing sitemap, speed loading, etc 
+
+### Scanners 
+
+Scanners are used to search for seo issues within a resource content.
+
+
 ### Dependencies
 
 - [spatie/laravel-sitemap](https://github.com/spatie/laravel-sitemap)

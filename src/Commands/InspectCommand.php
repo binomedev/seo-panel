@@ -3,16 +3,16 @@
 namespace Binomedev\SeoPanel\Commands;
 
 use Binomedev\SeoPanel\Report;
-use Binomedev\SeoPanel\SeoPanel;
+use Binomedev\SeoPanel\Seo;
 use Illuminate\Console\Command;
 
-class InspectSeoPanelCommand extends Command
+class InspectCommand extends Command
 {
     public $signature = 'seo:inspect';
 
-    public $description = 'Inpsects website seo panel.';
+    public $description = 'Runs all inspectors against your website.';
 
-    public function handle(SeoPanel $seo)
+    public function handle(Seo $seo)
     {
         $results = $seo->inspect();
 
@@ -27,6 +27,7 @@ class InspectSeoPanelCommand extends Command
                 $output->text("> {$report->help()}");
             }
         });
+
         $this->newLine();
         $this->comment("Inspection completed. Total {$results->count()} results.");
     }
