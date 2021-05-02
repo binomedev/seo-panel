@@ -14,7 +14,7 @@ class HttpsInspector extends Inspector
 
     function inspect(): Report
     {
-        $report = new Report('Https Inspector');
+        $report = Report::make('Https Inspector');
 
         try {
             Http::get(url()->secure('/'));

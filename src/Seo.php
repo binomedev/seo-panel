@@ -2,12 +2,14 @@
 
 namespace Binomedev\SeoPanel;
 
+use Binomedev\SeoPanel\Models\Option;
 use Illuminate\Support\Collection;
 
 class Seo
 {
     private array $scanners = [];
     private array $inspectors = [];
+    private $options = null;
 
     public function useInspector(string|array $inspectors): static
     {
@@ -42,6 +44,20 @@ class Seo
         return collect($this->inspectors)->map(function ($inspector) {
             return app($inspector)->inspect();
         });
+    }
+
+    public function options($name = null, $default = null)
+    {
+        if (is_null($this->options)) {
+            // Cache options
+            $this->options = Option::query()->pluck('value', 'name');
+        }
+
+        if (is_null($name)) {
+            return $this->options;
+        }
+
+        return $this->options->get($name, $default);
     }
 
     public function analyze(CanBeSeoAnalyzed|array $model)

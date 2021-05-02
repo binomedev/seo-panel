@@ -13,22 +13,22 @@ class SitemapInspector extends Inspector
 
     function inspect(): Report
     {
-        $report = new Report('Sitemap Inspector');
+        $report = Report::make('Sitemap Inspector');
 
         if ($this->checkFileNotExists()) {
-            return $report->status($passed = false)
+            return $report
                 ->message(__('File does not exists.'))
                 ->help(__('You can generate a new sitemap by running the following artisan command: php artisan seo:generate-sitemap'));
         }
 
         if ($this->checkIfCannotBeAccessed()) {
-            return $report->status($passed = false)
+            return $report
                 ->message(__('File exists, but it cannot be accessed. '))
-                ->help('Please, make sure that all the permissions are set correctly.');
+                ->help(__('Please, make sure that all the permissions are set correctly.'));
         }
 
 
-        return $report->status($passed = true)->message(__('Sitemap exists.'));
+        return $report->status(passed: true)->message(__('One or more sitemaps exists.'));
     }
 
     private function checkFileNotExists()

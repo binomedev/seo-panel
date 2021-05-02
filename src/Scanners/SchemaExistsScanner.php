@@ -18,7 +18,7 @@ class SchemaExistsScanner extends Scanner
 
         if (empty($schema)) {
             // Fail
-            $reports[] = $report->message('There is no schema type set.');
+             return $report->message('There is no schema type set.');
         }
 
         return $report->status(passed: true)->message('Scheme is set to: ' . $schema);

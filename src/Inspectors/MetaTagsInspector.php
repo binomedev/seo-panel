@@ -4,7 +4,6 @@
 namespace Binomedev\SeoPanel\Inspectors;
 
 
-use App\Models\Post;
 use Binomedev\SeoPanel\Inspector;
 use Binomedev\SeoPanel\Report;
 use Binomedev\SeoPanel\SeoFacade;
@@ -16,6 +15,22 @@ class MetaTagsInspector extends Inspector
     {
         // Check for default title
         // Check for default description (tagline)
-        // Check for default keywords
+
+        $options = SeoFacade::options();
+        $report = Report::make('Default Meta');
+
+        if ($options->hasNot('title') && $options->hasNot('description')) {
+            return $report->message('No meta are set.');
+        }
+
+        if ($options->hasNot('title')) {
+            return '';
+        }
+
+        if ($options->hasNot('description')) {
+            return '';
+        }
+
+        return $report;
     }
 }

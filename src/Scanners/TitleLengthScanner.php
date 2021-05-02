@@ -13,9 +13,8 @@ class TitleLengthScanner extends Scanner
 
     function scan(CanBeSeoAnalyzed $model): Report
     {
-        $report = Report::make('Title Length', status: false);
+        $report = Report::make('Title Length')->message('The seo title should have less than 60 characters.');
         $seo_title = $model->seoMeta->title;
-
 
         // Check if it has a seo title
         if (empty($seo_title)) {
@@ -24,11 +23,8 @@ class TitleLengthScanner extends Scanner
         }
 
         // Suggest that seo title should have less than 60 characters
-        if (strlen($seo_title) > 60) {
-            // Fail
-            return $report->message('The seo title should have less than 60 characters.');
-        }
+        $passed = strlen($seo_title) <= 60;
 
-        return $report->status(passed: true)->message('The seo title is less than 60 characters.');
+        return $report->status($passed);
     }
 }
