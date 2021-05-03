@@ -2,8 +2,12 @@
 
 namespace Binomedev\SeoPanel;
 
+use Artesaos\SEOTools\Facades\SEOTools;
 use Binomedev\SeoPanel\Models\Option;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response as IlluminateResponse;
 use Illuminate\Support\Collection;
+use Symfony\Component\HttpFoundation\Response;
 
 class Seo
 {
@@ -68,5 +72,35 @@ class Seo
 
         // Run tests
         return collect($this->scanners)->map(fn($scanner) => app($scanner)->scan($model));
+    }
+
+    public function modifyResponse(Request $request, Response $response)
+    {
+        /**
+         * Black magic, night walker
+         * She haunts me like no other
+         * Nobody told me code is pain
+         */
+
+        $content = $response->getContent();
+        $head = SEOTools::generate(true);
+
+        // Position the meta tags right at the beginning of the head tag.
+        $pos = strripos($content, '<head>');
+        if (false !== $pos) {
+            $content = substr($content, 6, $pos) . $head . substr($content, $pos);
+        }
+
+        $original = null;
+        if ($response instanceof IlluminateResponse && $response->getOriginalContent()) {
+            $original = $response->getOriginalContent();
+        }
+
+        $response->setContent($content);
+
+        // Restore original response (eg. the View or Ajax data)
+        if ($original) {
+            $response->original = $original;
+        }
     }
 }
