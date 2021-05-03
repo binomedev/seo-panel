@@ -3,8 +3,7 @@
 
 namespace Binomedev\SeoPanel;
 
-
 interface CanScan
 {
-    function scan(CanBeSeoAnalyzed $model): Report;
+    public function scan(CanBeSeoAnalyzed $model): Report;
 }

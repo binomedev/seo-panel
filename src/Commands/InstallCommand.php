@@ -3,7 +3,6 @@
 
 namespace Binomedev\SeoPanel\Commands;
 
-
 use Illuminate\Console\Command;
 
 class InstallCommand extends Command

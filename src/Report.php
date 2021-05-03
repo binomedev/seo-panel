@@ -3,7 +3,6 @@
 
 namespace Binomedev\SeoPanel;
 
-
 class Report
 {
     const SEVERITY_SUGGESTION = 'suggestion';
@@ -54,7 +53,7 @@ class Report
         return new static($name, status: true);
     }
 
-    public function severity(string $type = null): string|static
+    public function severity(string $type = null): string | static
     {
         if (is_null($type)) {
             return $this->severity;
@@ -86,7 +85,7 @@ class Report
 
     public function hasFailed(): bool
     {
-        return !$this->status;
+        return ! $this->status;
     }
 
     public function hasPassed(): bool
@@ -101,17 +100,18 @@ class Report
         return $this;
     }
 
-    public function message(string $message = null): string|static
+    public function message(string $message = null): string | static
     {
         if (is_null($message)) {
             return $this->message;
         }
 
         $this->message = $message;
+
         return $this;
     }
 
-    public function help(string $help = null): string|static
+    public function help(string $help = null): string | static
     {
         if (is_null($help)) {
             return $this->help;
@@ -127,7 +127,7 @@ class Report
         return $this->meta[$key] = $value;
     }
 
-    public function meta(array $meta = null): array|static
+    public function meta(array $meta = null): array | static
     {
         if (is_null($meta)) {
             return $this->meta;

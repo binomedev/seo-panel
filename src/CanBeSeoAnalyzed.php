@@ -3,12 +3,11 @@
 
 namespace Binomedev\SeoPanel;
 
-
 interface CanBeSeoAnalyzed
 {
-    function seoMeta();
+    public function seoMeta();
 
-    function getSeoField($field);
+    public function getSeoField($field);
 
-    function getSeoAttribute($field);
+    public function getSeoAttribute($field);
 }

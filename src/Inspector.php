@@ -3,17 +3,14 @@
 
 namespace Binomedev\SeoPanel;
 
-
 abstract class Inspector implements CanInspect
 {
-
-
-    function name(): string
+    public function name(): string
     {
         return '';
     }
 
-    function help(): string
+    public function help(): string
     {
         return '';
     }

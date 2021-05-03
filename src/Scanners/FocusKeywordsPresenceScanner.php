@@ -3,15 +3,13 @@
 
 namespace Binomedev\SeoPanel\Scanners;
 
-
 use Binomedev\SeoPanel\CanBeSeoAnalyzed;
 use Binomedev\SeoPanel\Report;
 use Binomedev\SeoPanel\Scanner;
 
 class FocusKeywordsPresenceScanner extends Scanner
 {
-
-    function scan(CanBeSeoAnalyzed $model): Report
+    public function scan(CanBeSeoAnalyzed $model): Report
     {
         $meta = $model->seoMeta()->first();
 
@@ -47,11 +45,13 @@ class FocusKeywordsPresenceScanner extends Scanner
             $fields = [];
 
             foreach ($tests as $name => $haystack) {
-                if (str_contains($haystack, $keyword)) continue;
+                if (str_contains($haystack, $keyword)) {
+                    continue;
+                }
                 $fields[] = $name;
             }
 
-            if (!empty($fields)) {
+            if (! empty($fields)) {
                 $group[$keyword] = $fields;
             }
         }
@@ -61,6 +61,5 @@ class FocusKeywordsPresenceScanner extends Scanner
         }
 
         return $report->message("Focus keywords not found in following fields")->meta($group);
-
     }
 }

@@ -39,7 +39,6 @@ class SeoPanelServiceProvider extends PackageServiceProvider
         FocusKeywordsPresenceScanner::class,
     ];
 
-
     public function configurePackage(Package $package): void
     {
         /*
@@ -53,7 +52,7 @@ class SeoPanelServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasMigrations([
                 'create_seo_options_table',
-                'create_seo_meta_table'
+                'create_seo_meta_table',
             ])
             ->hasCommands($this->commands);
     }

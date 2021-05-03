@@ -40,6 +40,7 @@ trait HasSeo
         }
 
         $content = strip_tags(htmlspecialchars_decode($content));
+
         return Str::limit($content, $limit);
     }
 

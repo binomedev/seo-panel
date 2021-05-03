@@ -3,7 +3,6 @@
 
 namespace Binomedev\SeoPanel\Scanners;
 
-
 use Binomedev\SeoPanel\CanBeSeoAnalyzed;
 use Binomedev\SeoPanel\Report;
 use Binomedev\SeoPanel\Scanner;
@@ -13,7 +12,7 @@ class ContentMinLengthScanner extends Scanner
 {
     private $contentCleaners = [];
 
-    function scan(CanBeSeoAnalyzed $model): Report
+    public function scan(CanBeSeoAnalyzed $model): Report
     {
         $report = Report::make('Content Min Length')
             ->message('Content should be at least 600 characters long.');
@@ -42,7 +41,7 @@ class ContentMinLengthScanner extends Scanner
                     return $next($content);
                 },
 
-                ...$this->contentCleaners
+                ...$this->contentCleaners,
             ])
             ->thenReturn();
     }

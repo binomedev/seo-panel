@@ -3,12 +3,11 @@
 
 namespace Binomedev\SeoPanel;
 
-
 interface CanInspect
 {
-    function inspect() : Report;
+    public function inspect() : Report;
 
-    function name(): string;
+    public function name(): string;
 
-    function help(): string;
+    public function help(): string;
 }

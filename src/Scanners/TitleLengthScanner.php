@@ -3,15 +3,13 @@
 
 namespace Binomedev\SeoPanel\Scanners;
 
-
 use Binomedev\SeoPanel\CanBeSeoAnalyzed;
 use Binomedev\SeoPanel\Report;
 use Binomedev\SeoPanel\Scanner;
 
 class TitleLengthScanner extends Scanner
 {
-
-    function scan(CanBeSeoAnalyzed $model): Report
+    public function scan(CanBeSeoAnalyzed $model): Report
     {
         $report = Report::make('Title Length')->message('The seo title should have less than 60 characters.');
         $seo_title = $model->seoMeta->title;

@@ -3,7 +3,6 @@
 
 namespace Binomedev\SeoPanel\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 
 class Meta extends Model
@@ -13,7 +12,7 @@ class Meta extends Model
     protected $fillable = ['title', 'description', 'keywords', 'image', 'schema'];
 
     protected $casts = [
-        'score' => 'int'
+        'score' => 'int',
     ];
 
     public function seoable()

@@ -15,12 +15,12 @@ class Seo
     private array $inspectors = [];
     private $options = null;
 
-    public function registerInspector(string|array $inspectors): static
+    public function registerInspector(string | array $inspectors): static
     {
         return $this->registerService($inspectors, $this->inspectors);
     }
 
-    private function registerService(string|array $items, &$iterable): static
+    private function registerService(string | array $items, &$iterable): static
     {
         if (is_array($items)) {
             $iterable = array_merge($iterable, $items);
@@ -33,7 +33,7 @@ class Seo
         return $this;
     }
 
-    public function registerScanner(string|array $scanners): static
+    public function registerScanner(string | array $scanners): static
     {
         return $this->registerService($scanners, $this->scanners);
     }
@@ -50,14 +50,14 @@ class Seo
         });
     }
 
-    public function analyze(CanBeSeoAnalyzed|array $model)
+    public function analyze(CanBeSeoAnalyzed | array $model)
     {
-        if (!$model->relationLoaded('seoMeta')) {
+        if (! $model->relationLoaded('seoMeta')) {
             $model->load('seoMeta');
         }
 
         // Run tests
-        return collect($this->scanners)->map(fn($scanner) => app($scanner)->scan($model));
+        return collect($this->scanners)->map(fn ($scanner) => app($scanner)->scan($model));
     }
 
     public function modifyResponse(Request $request, Response $response)
@@ -103,7 +103,6 @@ class Seo
         SEOTools::metatags()->setTitleDefault($options->get('title', config('app.name')));
         SEOTools::metatags()->setTitleSeparator($options->get('title_separator', '-'));
         SEOTools::setDescription($options->get('description'));
-
     }
 
     public function options($name = null, $default = null)

@@ -3,12 +3,10 @@
 
 namespace Binomedev\SeoPanel\Http\Middleware;
 
-
 use Binomedev\SeoPanel\Seo;
 use Closure;
 use Exception;
 use Illuminate\Http\Request;
-
 
 class InjectSeoTags
 {
@@ -57,8 +55,8 @@ class InjectSeoTags
 
     private function canSkipInject($request) : bool
     {
-        return !$request->isMethod('get')
-            || !$this->enabled
+        return ! $request->isMethod('get')
+            || ! $this->enabled
             || $request->expectsJson()
             || $this->inExceptArray($request);
     }
