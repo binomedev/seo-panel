@@ -85,7 +85,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 ### Generic Features
 
 - [ ] Google Analytics Integration (Made Easy)
-- [ ] Generate SEO MetaTags
+- [X] Generate SEO MetaTags
 - [ ] Automated technical SEO improvements, like canonical URLs and meta tags.
 - [ ] Advanced XML sitemaps; making it easy for Google to understand your site structure.
 - [ ] Title and meta description templating, for better branding and consistent snippets in the search results.

@@ -60,8 +60,8 @@ class SeoPanelServiceProvider extends PackageServiceProvider
 
     public function packageBooted()
     {
-        SeoFacade::useInspector($this->inspectors);
-        SeoFacade::useScanner($this->scanners);
+        SeoFacade::registerInspector($this->inspectors);
+        SeoFacade::registerScanner($this->scanners);
 
         $this->registerMiddleware(InjectSeoTags::class);
     }
