@@ -99,9 +99,11 @@ class Seo
         // TODO: This should be cached
         $options = $this->options();
 
+        // TODO: fix issue when overriding
         SEOTools::metatags()->setTitleDefault($options->get('title', config('app.name')));
         SEOTools::metatags()->setTitleSeparator($options->get('title_separator', '-'));
         SEOTools::setDescription($options->get('description'));
+
     }
 
     public function options($name = null, $default = null)
