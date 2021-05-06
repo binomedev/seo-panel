@@ -7,6 +7,25 @@ A handy panel to help improve the SEO of your application.
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/binomedev/seo_panel/Check%20&%20fix%20styling?label=code%20style)](https://github.com/binomedev/seo_panel/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amaster)
 [![Total Downloads](https://img.shields.io/packagist/dt/binomedev/seo_panel.svg?style=flat-square)](https://packagist.org/packages/binomedev/seo_panel)
 
+## Table of Contents
+ 
+1. [Installation]()
+1. [Publish Assets]()
+1. [Usage]()
+    1. [Model Setup]()
+    1. [SEO Service Overview]()
+    1. [Register Custom Inspector]()
+    1. [Register Custom Scanner]()
+
+1. [Middlewares and Black Magic]()
+    1. [SetDefaultSeoTags Middleware]()
+    1. [EntangleSeoEntity Middleware]()
+    1. [InjectSeoTags Middleware]()
+1. [Extending]()
+1. [Scheduling]()
+1. [Roadmap]()
+
+
 ## Installation
 
 ### Dependencies
@@ -26,6 +45,7 @@ Then run the install command:
 php artisan seo:install
 ```
 
+### Publish Assets
 You can publish and run the migrations with:
 
 ```bash
@@ -86,7 +106,7 @@ class Post extends Model implements CanBeSeoAnalyzed
 Aand... in theory, that should be all of it. 
 Well, there is more to it if you really want to get your hands dirty.
 
-### Middlewares & Black Magic :fire:
+## Middlewares & Black Magic :fire:
 
 By default, you don't have to add any middlewares as long as the 'auto_inject_enabled' is set to **true**.
 However, if magic scares you, you should set it to **false** and add any middlewares that fits you.
