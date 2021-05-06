@@ -4,10 +4,11 @@ use Binomedev\SeoPanel\Inspectors\{HttpsInspector, SitemapInspector};
 use Binomedev\SeoPanel\Scanners\{ContentMinLengthScanner,
     DescriptionLengthScanner,
     FocusKeywordsPresenceScanner,
+    ImageAltScanner,
+    LinksScanner,
     SchemaExistsScanner,
     SlugLengthScanner,
-    TitleLengthScanner
-};
+    TitleLengthScanner};
 
 return [
 
@@ -57,5 +58,7 @@ return [
         ContentMinLengthScanner::class,
         SchemaExistsScanner::class,
         FocusKeywordsPresenceScanner::class,
+        ImageAltScanner::class,
+        LinksScanner::class,
     ],
 ];

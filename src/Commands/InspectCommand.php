@@ -20,7 +20,7 @@ class InspectCommand extends Command
             $output = $this->getOutput();
             $output->section($report->name());
 
-            if ($report->hasPassed()) {
+            if ($report->isPassed()) {
                 $output->block($report->message(), 'OK', 'fg=green');
             } else {
                 $output->block($report->message(), 'WARNING', 'fg=red');

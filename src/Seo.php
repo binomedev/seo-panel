@@ -100,22 +100,39 @@ class Seo
     /**
      * Inspects the website for generic SEO configuration
      *
-     * @return Collection
+     * @param string|CanInspect|null $inspector
+     * @return Collection|Report
      */
-    public function inspect(): Collection
+    public function inspect(string|CanInspect $inspector = null): Collection|Report
     {
-        return collect($this->inspectors)->map(function ($inspector) {
+        if (!is_null($inspector)) {
+            if ($inspector instanceof CanInspect) {
+                return $inspector->inspect();
+            }
+
             return app($inspector)->inspect();
-        });
+        }
+
+        return collect($this->inspectors)->map(fn($inspector) => app($inspector)->inspect());
     }
 
-    public function analyze(CanBeSeoAnalyzed|array $model)
+    public function analyze(CanBeSeoAnalyzed|array $model, string|CanScan $scanner = null): Collection|Report
     {
         if (!$model->relationLoaded('seoMeta')) {
             $model->load('seoMeta');
         }
 
+        if (!is_null($scanner)) {
+            if ($scanner instanceof CanScan) {
+                return $scanner->scan($model);
+            }
+
+            return app($scanner)->scan($model);
+        }
+
         // Run tests
         return collect($this->scanners)->map(fn($scanner) => app($scanner)->scan($model));
     }
+
+
 }

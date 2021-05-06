@@ -8,7 +8,7 @@ A handy panel to help improve the SEO of your application.
 [![Total Downloads](https://img.shields.io/packagist/dt/binomedev/seo_panel.svg?style=flat-square)](https://packagist.org/packages/binomedev/seo_panel)
 
 ## Table of Contents
- 
+
 1. [Installation]()
 1. [Publish Assets]()
 1. [Usage]()
@@ -21,15 +21,16 @@ A handy panel to help improve the SEO of your application.
     1. [SetDefaultSeoTags Middleware]()
     1. [EntangleSeoEntity Middleware]()
     1. [InjectSeoTags Middleware]()
+1. [Setup Google Analytics]()
 1. [Extending]()
 1. [Scheduling]()
 1. [Roadmap]()
-
 
 ## Installation
 
 ### Dependencies
 
+- [spatie/laravel-analytics](https://github.com/spatie/laravel-analytics)
 - [spatie/laravel-sitemap](https://github.com/spatie/laravel-sitemap)
 - [artesaos/seotools](https://github.com/artesaos/seotools)
 
@@ -46,6 +47,7 @@ php artisan seo:install
 ```
 
 ### Publish Assets
+
 You can publish and run the migrations with:
 
 ```bash
@@ -85,8 +87,9 @@ return [
 ## Usage
 
 ### Model Setup
- 
-Add the **CanBeSeoAnalyzed** interface and the **HasSeo** trait to any model that you would like to be used for SEO analyzing.
+
+Add the **CanBeSeoAnalyzed** interface and the **HasSeo** trait to any model that you would like to be used for SEO
+analyzing.
 
 ```php
 namespace App\Models;
@@ -103,13 +106,12 @@ class Post extends Model implements CanBeSeoAnalyzed
 }
 ```
 
-Aand... in theory, that should be all of it. 
-Well, there is more to it if you really want to get your hands dirty.
+Aand... in theory, that should be all of it. Well, there is more to it if you really want to get your hands dirty.
 
 ## Middlewares & Black Magic :fire:
 
-By default, you don't have to add any middlewares as long as the 'auto_inject_enabled' is set to **true**.
-However, if magic scares you, you should set it to **false** and add any middlewares that fits you.
+By default, you don't have to add any middlewares as long as the 'auto_inject_enabled' is set to **true**. However, if
+magic scares you, you should set it to **false** and add any middlewares that fits you.
 
 It can be set in the .env file, there is no need to publish the config file.
 
@@ -132,11 +134,11 @@ Add middlewares in order to set the meta tags automatically.
 ];
 ```
 
-Let's break it down, shall we? 
+Let's break it down, shall we?
 
 #### SetDefaultSeoTags Middleware
 
-Starting with **SetDefaultSeoTags::class**, this middleware, sets the default meta tags from the *seo_options* table. 
+Starting with **SetDefaultSeoTags::class**, this middleware, sets the default meta tags from the *seo_options* table.
 Such as default title (Site Name, company name, etc), title separator and a description.
 
 Any of these can be overridden within any controller method. Example:
@@ -166,8 +168,8 @@ You can find out more about the [SEOTools here](https://github.com/artesaos/seot
 
 #### EntangleSeoEntity Middleware
 
-Some meta tags, including the description, are overridden by the *'EntangleSeoEntity::class'* middleware.
-Which can be used for single and groups of routes or, as suggested above, using the web middleware.
+Some meta tags, including the description, are overridden by the *'EntangleSeoEntity::class'* middleware. Which can be
+used for single and groups of routes or, as suggested above, using the web middleware.
 
 If you want to do it the manual way, you can use the following syntax:
 
@@ -196,9 +198,9 @@ class PageController extends Controller {
 
 #### InjectSeoTags Middleware
 
-'InjectSeoTags::class' middleware is responsible for generating and actually injecting the html in the head section. 
-However, 95% of this is just trying to figure it out if and where should inject the content. 
-If you do not wish for this overhead, then you can simply remove the middleware and just paste following line:
+'InjectSeoTags::class' middleware is responsible for generating and actually injecting the html in the head section.
+However, 95% of this is just trying to figure it out if and where should inject the content. If you do not wish for this
+overhead, then you can simply remove the middleware and just paste following line:
 
 ```html
 <!-- layouts/app.blade.php-->
@@ -207,6 +209,16 @@ If you do not wish for this overhead, then you can simply remove the middleware 
     {{ SEOTools::generate($minify = true) }}
     <!-- ... -->
 </head>
+```
+
+### Google Analytics
+
+Check out
+this [guide](https://github.com/spatie/laravel-analytics#how-to-obtain-the-credentials-to-communicate-with-google-analytics)
+in order to set up the Google Analytics.
+
+```dotenv
+ANALYTICS_VIEW_ID=<VIEW ID>
 ```
 
 ### Extending
@@ -220,9 +232,7 @@ loading, etc
 
 #### Scanners
 
-
 Scanners are used to search for seo issues within a resource/model's fields, such as: title, slug, content, etc.
-
 
 ### Schedules
 
@@ -289,13 +299,14 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 - [X] SEO Description
 - [ ] H1 Heading
 - [ ] H2 Heading
-- [ ] Image ALT Attributes
+- [X] Image ALT Attributes
 - [X] Keywords in Title & Description
 - [ ] Links Ratio
-- [ ] Site Tagline
+- [X] Site Tagline
 - [ ] Permalink Structure
 - [X] Focus Keywords
 - [X] Post Titles Missing Focus Keywords
+- [X] Count Internal, External and Dead Links
 
 ### Advanced SEO - Sanity Checks
 

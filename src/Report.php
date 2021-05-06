@@ -10,6 +10,7 @@ class Report
     const SEVERITY_MEDIUM = 'medium';
     const SEVERITY_HIGH = 'high';
     const SEVERITY_CRITICAL = 'critical';
+
     protected static array $allowedSeverities = [
         self::SEVERITY_SUGGESTION,
         self::SEVERITY_LOW,
@@ -53,7 +54,7 @@ class Report
         return new static($name, status: true);
     }
 
-    public function severity(string $type = null): string | static
+    public function severity(string $type = null): string|static
     {
         if (is_null($type)) {
             return $this->severity;
@@ -83,24 +84,38 @@ class Report
         return $this->name;
     }
 
-    public function hasFailed(): bool
+    public function isFailed(): bool
     {
-        return ! $this->status;
+        return !$this->status;
     }
 
-    public function hasPassed(): bool
+    public function isPassed(): bool
     {
         return $this->status;
     }
 
-    public function status(bool $passed): static
+    public function hasFailed($message = null): static
+    {
+        return $this->status(false, $message);
+    }
+
+    public function hasPassed($message = null): static
+    {
+        return $this->status(true, $message);
+    }
+
+    public function status(bool $passed, string $message = null): static
     {
         $this->status = $passed;
+
+        if ($message) {
+            $this->message = $message;
+        }
 
         return $this;
     }
 
-    public function message(string $message = null): string | static
+    public function message(string $message = null): string|static
     {
         if (is_null($message)) {
             return $this->message;
@@ -111,7 +126,7 @@ class Report
         return $this;
     }
 
-    public function help(string $help = null): string | static
+    public function help(string $help = null): string|static
     {
         if (is_null($help)) {
             return $this->help;
@@ -127,7 +142,7 @@ class Report
         return $this->meta[$key] = $value;
     }
 
-    public function meta(array $meta = null): array | static
+    public function meta(array $meta = null): array|static
     {
         if (is_null($meta)) {
             return $this->meta;
