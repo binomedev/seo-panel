@@ -3,7 +3,7 @@
 
 namespace Binomedev\SeoPanel\Http\Middleware;
 
-use Binomedev\SeoPanel\Seo;
+use Binomedev\SeoPanel\Utils\ModifyResponse;
 use Closure;
 use Exception;
 use Illuminate\Http\Request;
@@ -17,13 +17,8 @@ class InjectSeoTags
      */
     protected $except = [];
 
-    protected $seo;
-    protected $enabled = true;
-
-    public function __construct(Seo $seo)
+    public function __construct()
     {
-        $this->seo = $seo;
-        $this->enabled = config('seo.auto_inject_enabled');
         $this->except = config('seo.inject_except') ?: [];
     }
 
@@ -48,15 +43,14 @@ class InjectSeoTags
             $response = $this->handleException($request, $e);
         }
 
-        $this->seo->modifyResponse($request, $response);
+        ModifyResponse::handle($response);
 
         return $response;
     }
 
-    private function canSkipInject($request) : bool
+    private function canSkipInject($request): bool
     {
-        return ! $request->isMethod('get')
-            || ! $this->enabled
+        return !$request->isMethod('get')
             || $request->expectsJson()
             || $this->inExceptArray($request);
     }

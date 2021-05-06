@@ -17,6 +17,7 @@ class GenerateSitemapCommand extends Command
         SitemapGenerator::create(config('app.url'))
             ->writeToFile(public_path('sitemap.xml'))
         ;
+
         // TODO: Ping search engines with the newly generated sitemap.
 
         $this->comment('All done');

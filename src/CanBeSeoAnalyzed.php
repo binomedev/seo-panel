@@ -3,6 +3,13 @@
 
 namespace Binomedev\SeoPanel;
 
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * Interface CanBeSeoAnalyzed
+ * @package Binomedev\SeoPanel
+ * @mixin Model
+ */
 interface CanBeSeoAnalyzed
 {
     public function seoMeta();

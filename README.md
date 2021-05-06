@@ -1,4 +1,4 @@
-# Laravel SEO Panel
+# Laravel SEO Sorcery
 
 A handy panel to help improve the SEO of your application.
 
@@ -17,35 +17,192 @@ A handy panel to help improve the SEO of your application.
 You can install the package via composer:
 
 ```bash
-composer require binomedev/seo_panel
+composer require binomedev/seo-panel
+```
+
+Then run the install command:
+
+```bash
+php artisan seo:install
 ```
 
 You can publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --provider="Binomedev\SeoPanel\SeoPanelServiceProvider" --tag="seo_panel-migrations"
+php artisan vendor:publish --provider="Binomedev\SeoPanel\SeoPanelServiceProvider" --tag="seo-migrations"
 php artisan migrate
 ```
 
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --provider="Binomedev\SeoPanel\SeoPanelServiceProvider" --tag="seo_panel-config"
+php artisan vendor:publish --provider="Binomedev\SeoPanel\SeoPanelServiceProvider" --tag="seo-config"
 ```
 
 This is the contents of the published config file:
 
 ```php
 return [
+     /*
+     * When this is enabled, the meta tags will be generated and injected auto-magically.
+     * Set this to false if you want to manually generate the tags.
+     */
+    'auto_inject_enabled' => env('SEO_AUTO_INJECT', true),
+
+    /*s
+     * The 'You shall not pass' for this package.
+     *
+     * Set the paths where you don't want to generate seo tags.
+     */
+    'inject_except' => [
+        'telescope*',
+        'horizon*',
+        'nova*',
+    ],
 ];
 ```
 
 ## Usage
 
+### Model Setup
+ 
+Add the **CanBeSeoAnalyzed** interface and the **HasSeo** trait to any model that you would like to be used for SEO analyzing.
+
 ```php
-$seo_panel = new Binomedev\SeoPanel();
-echo $seo_panel->echoPhrase('Hello, Spatie!');
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+use Binomedev\SeoPanel\CanBeSeoAnalyzed;
+use Binomedev\SeoPanel\Traits\HasSeo;
+
+class Post extends Model implements CanBeSeoAnalyzed
+{
+    use HasFactory, HasSeo; 
+}
 ```
+
+Aand... in theory, that should be all of it. 
+Well, there is more to it if you really want to get your hands dirty.
+
+### Middlewares & Black Magic :fire:
+
+By default, you don't have to add any middlewares as long as the 'auto_inject_enabled' is set to **true**.
+However, if magic scares you, you should set it to **false** and add any middlewares that fits you.
+
+It can be set in the .env file, there is no need to publish the config file.
+
+```dotenv
+SEO_AUTO_INJECT=false
+```
+
+Add middlewares in order to set the meta tags automatically.
+
+```php
+[
+    // App\Http\Kernel.php.
+    'web' => [
+        //...
+        \Binomedev\SeoPanel\Http\Middleware\SetDefaultSeoTags::class,
+        \Binomedev\SeoPanel\Http\Middleware\EntangleSeoEntity::class,
+        \Binomedev\SeoPanel\Http\Middleware\InjectSeoTags::class,
+        //...
+    ]
+];
+```
+
+Let's break it down, shall we? 
+
+#### SetDefaultSeoTags Middleware
+
+Starting with **SetDefaultSeoTags::class**, this middleware, sets the default meta tags from the *seo_options* table. 
+Such as default title (Site Name, company name, etc), title separator and a description.
+
+Any of these can be overridden within any controller method. Example:
+
+```php
+
+use App\Http\Controllers\Controller;
+// Make sure to import the SEOTools;
+use Artesaos\SEOTools\Traits\SEOTools; 
+
+class PageController extends Controller {
+    use SEOTools;
+    
+    public function dashboard()
+    { 
+        // Use the following method chain to set a description.
+        $this->seo()->setDescription('New description.');
+        // Or
+        \SeoTools::setDescription('Some description using the facade.');
+    
+        return view('dashboard');
+    }
+}
+```
+
+You can find out more about the [SEOTools here](https://github.com/artesaos/seotools).
+
+#### EntangleSeoEntity Middleware
+
+Some meta tags, including the description, are overridden by the *'EntangleSeoEntity::class'* middleware.
+Which can be used for single and groups of routes or, as suggested above, using the web middleware.
+
+If you want to do it the manual way, you can use the following syntax:
+
+```php
+// In some controller
+use App\Http\Controllers\Controller;
+use Artesaos\SEOTools\Traits\SEOTools;
+use App\Models\Post;
+
+class PageController extends Controller {
+    use SEOTools; // <--- Remember to use the trait.
+    
+    public function show(Post $post)
+    { 
+        // ...
+     
+        $this->seo()->setTitle($post->seoMeta->title);
+        $this->seo()->setDescription($post->seoMeta->description);
+        $this->seo()->metatags()->setKeywords($post->seoMeta->keywords);
+        
+        // ... 
+    }
+}
+
+```
+
+#### InjectSeoTags Middleware
+
+'InjectSeoTags::class' middleware is responsible for generating and actually injecting the html in the head section. 
+However, 95% of this is just trying to figure it out if and where should inject the content. 
+If you do not wish for this overhead, then you can simply remove the middleware and just paste following line:
+
+```html
+<!-- layouts/app.blade.php-->
+<head>
+    <!-- ... -->
+    {{ SEOTools::generate($minify = true) }}
+    <!-- ... -->
+</head>
+```
+
+### Extending
+
+todo
+
+#### Inspectors
+
+Inspectors are used to search for generic issues that may impact seo, such as: not using https, missing sitemap, speed
+loading, etc
+
+#### Scanners
+
+
+Scanners are used to search for seo issues within a resource/model's fields, such as: title, slug, content, etc.
+
 
 ### Schedules
 
@@ -58,17 +215,6 @@ function schedule(Schedule $schedule)
     // ...
 }
 ```
-
-### Glossary
-
-#### Inspectors
-
-Inspectors are used to search for generic issues that may impact seo, such as: not using https, missing sitemap, speed
-loading, etc
-
-#### Scanners
-
-Scanners are used to search for seo issues within a resource/model's fields, such as: title, slug, content, etc.
 
 ## Testing
 
@@ -157,9 +303,8 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ### Service
 
-- [ ] Run scans on our server using the API. 
-  This helps people with low-end servers (Shared Hosting) or people who don't have an admin
-  panel.
+- [ ] Run scans on our server using the API. This helps people with low-end servers (Shared Hosting) or people who don't
+  have an admin panel.
 
 ## Contributing
 

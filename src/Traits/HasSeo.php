@@ -32,7 +32,7 @@ trait HasSeo
         });
     }
 
-    private static function makeDescriptionFromContent($content, $limit = 160)
+    private static function makeDescriptionFromContent($content, $limit = 160): ?string
     {
         // Avoid doing all strips and limits if content is empty
         if (empty($content)) {

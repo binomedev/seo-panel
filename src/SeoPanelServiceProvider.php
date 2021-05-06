@@ -4,48 +4,27 @@ namespace Binomedev\SeoPanel;
 
 use Binomedev\SeoPanel\Commands\GenerateSitemapCommand;
 use Binomedev\SeoPanel\Commands\InspectCommand;
+use Binomedev\SeoPanel\Commands\InstallCommand;
+use Binomedev\SeoPanel\Commands\PublishCommand;
+use Binomedev\SeoPanel\Http\Middleware\EntangleSeoEntity;
 use Binomedev\SeoPanel\Http\Middleware\InjectSeoTags;
-use Binomedev\SeoPanel\Inspectors\HttpsInspector;
-use Binomedev\SeoPanel\Inspectors\SitemapInspector;
-use Binomedev\SeoPanel\Scanners\ContentMinLengthScanner;
-use Binomedev\SeoPanel\Scanners\DescriptionLengthScanner;
-use Binomedev\SeoPanel\Scanners\FocusKeywordsPresenceScanner;
-use Binomedev\SeoPanel\Scanners\SchemaExistsScanner;
-use Binomedev\SeoPanel\Scanners\SlugLengthScanner;
-use Binomedev\SeoPanel\Scanners\TitleLengthScanner;
+use Binomedev\SeoPanel\Http\Middleware\SetDefaultSeoTags;
 use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class SeoPanelServiceProvider extends PackageServiceProvider
+class SeoPanelServiceProvider extends PackageServiceProvider implements DeferrableProvider
 {
-    protected $inspectors = [
-        SitemapInspector::class,
-        HttpsInspector::class,
-    ];
 
     protected $commands = [
         InspectCommand::class,
         GenerateSitemapCommand::class,
-        // PublishCommand::class,
-    ];
-
-    protected $scanners = [
-        TitleLengthScanner::class,
-        DescriptionLengthScanner::class,
-        SlugLengthScanner::class,
-        ContentMinLengthScanner::class,
-        SchemaExistsScanner::class,
-        FocusKeywordsPresenceScanner::class,
+        InstallCommand::class,
     ];
 
     public function configurePackage(Package $package): void
     {
-        /*
-         * This class is a Package Service Provider
-         *
-         * More info: https://github.com/spatie/laravel-package-tools
-         */
         $package
             ->name('seo')
             ->hasConfigFile()
@@ -59,20 +38,34 @@ class SeoPanelServiceProvider extends PackageServiceProvider
 
     public function packageBooted()
     {
-        SeoFacade::registerInspector($this->inspectors);
-        SeoFacade::registerScanner($this->scanners);
-
-        $this->registerMiddleware(InjectSeoTags::class);
+        $this->registerMiddlewares();
     }
 
-    protected function registerMiddleware($middleware)
+    private function registerMiddlewares()
     {
-        $kernel = $this->app[Kernel::class];
-        $kernel->pushMiddleware($middleware);
+        if ($this->app->runningInConsole() && !config('seo.auto_inject_enabled')) {
+            return;
+        }
+
+        $kernel = $this->app[Kernel::class];;
+
+        $kernel->appendMiddlewareToGroup('web', SetDefaultSeoTags::class);
+        $kernel->appendMiddlewareToGroup('web', EntangleSeoEntity::class);
+        $kernel->appendMiddlewareToGroup('web', InjectSeoTags::class);
     }
 
     public function packageRegistered()
     {
         $this->app->singleton(Seo::class);
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [Seo::class];
     }
 }
