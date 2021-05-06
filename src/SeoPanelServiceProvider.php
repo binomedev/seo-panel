@@ -2,17 +2,11 @@
 
 namespace Binomedev\SeoPanel;
 
-use Binomedev\SeoPanel\Commands\GenerateSitemapCommand;
-use Binomedev\SeoPanel\Commands\InspectCommand;
-use Binomedev\SeoPanel\Commands\InstallCommand;
-use Binomedev\SeoPanel\Commands\PublishCommand;
-use Binomedev\SeoPanel\Http\Middleware\EntangleSeoEntity;
-use Binomedev\SeoPanel\Http\Middleware\InjectSeoTags;
-use Binomedev\SeoPanel\Http\Middleware\SetDefaultSeoTags;
+use Binomedev\SeoPanel\Commands\{GenerateSitemapCommand, InspectCommand, InstallCommand};
+use Binomedev\SeoPanel\Http\Middleware\{EntangleSeoEntity, InjectSeoTags, SetDefaultSeoTags};
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Contracts\Support\DeferrableProvider;
-use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Spatie\LaravelPackageTools\{Package, PackageServiceProvider};
 
 class SeoPanelServiceProvider extends PackageServiceProvider implements DeferrableProvider
 {
@@ -38,12 +32,7 @@ class SeoPanelServiceProvider extends PackageServiceProvider implements Deferrab
 
     public function packageBooted()
     {
-        $this->registerMiddlewares();
-    }
-
-    private function registerMiddlewares()
-    {
-        if ($this->app->runningInConsole() && !config('seo.auto_inject_enabled')) {
+        if ($this->app->runningInConsole() && !$this->app['config']['seo.auto_inject_enabled']) {
             return;
         }
 
