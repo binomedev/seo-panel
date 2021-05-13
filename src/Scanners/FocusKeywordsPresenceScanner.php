@@ -6,6 +6,7 @@ namespace Binomedev\SeoPanel\Scanners;
 use Binomedev\SeoPanel\Contracts\CanBeSeoAnalyzed;
 use Binomedev\SeoPanel\Result;
 use Binomedev\SeoPanel\Scanner;
+use Illuminate\Support\Str;
 
 class FocusKeywordsPresenceScanner extends Scanner
 {
@@ -28,11 +29,11 @@ class FocusKeywordsPresenceScanner extends Scanner
 
         // TODO: Scan using database search.
         $tests = [
-            'title' => $model->getSeoAttribute('title'),
-            'slug' => $model->getSeoAttribute('slug'),
-            'content' => $model->getSeoAttribute('content'),
-            'seo_title' => $meta->title,
-            'seo_description' => $meta->description,
+            'title' => strtolower($model->getSeoAttribute('title')),
+            'slug' => implode(' ', explode('-', $model->getSeoAttribute('slug'))),
+            'content' => strtolower($model->getSeoAttribute('content')),
+            'seo_title' => strtolower($meta->title),
+            'seo_description' => strtolower($meta->description),
         ];
 
         // Check if focus keyword is present in slug, title, content
@@ -40,12 +41,12 @@ class FocusKeywordsPresenceScanner extends Scanner
         $keywords = $meta->keywordsList;
         $group = [];
         foreach ($keywords as $keyword) {
-            $keyword = trim($keyword);
+            $keyword = strtolower(trim($keyword));
 
             $fields = [];
 
             foreach ($tests as $name => $haystack) {
-                if (str_contains($haystack, $keyword)) {
+                if (Str::contains($haystack, $keyword)) {
                     continue;
                 }
                 $fields[] = $name;

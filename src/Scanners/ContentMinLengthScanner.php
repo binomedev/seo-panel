@@ -7,6 +7,7 @@ use Binomedev\SeoPanel\Contracts\CanBeSeoAnalyzed;
 use Binomedev\SeoPanel\Result;
 use Binomedev\SeoPanel\Scanner;
 use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Str;
 
 class ContentMinLengthScanner extends Scanner
 {
@@ -15,12 +16,12 @@ class ContentMinLengthScanner extends Scanner
     public function scan(CanBeSeoAnalyzed $model): Result
     {
         $report = Result::make('Content Min Length')
-            ->message('Content should be at least 600 characters long.');
+            ->message('Content should be at least 600 words long.');
 
         $content = $this->cleanContent($model->getSeoAttribute('content'));
 
-        // Check if content is at least 600 characters excluding html and any syntax that shouldn't count
-        $count = strlen($content);
+        // Check if content is at least 600 words long, excluding html and any syntax that shouldn't count
+        $count = Str::wordCount($content);
         $report->add('count', $count);
 
         $passed = $count > 600;
@@ -30,9 +31,8 @@ class ContentMinLengthScanner extends Scanner
 
     private function cleanContent($content)
     {
-        $pipeline = app(Pipeline::class);
-
-        return $pipeline->send($content)
+        return app(Pipeline::class)
+            ->send($content)
             ->through([
                 // Strip all html tags, to measure only the real content
                 function ($content, \Closure $next) {

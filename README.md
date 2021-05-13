@@ -349,6 +349,14 @@ Please review [our security policy](../../security/policy) on how to report secu
 ## Research
 
 - [Rank Math Demo](https://demo.rankmath.com/wp-login.php)
+- [YOAST Blog](https://yoast.com/must-reads-for-website-seo/)
+- [Configuring “Schema Markup” in Rank Math](https://rankmath.com/kb/rich-snippets/)
+- [Schema Markup – The ONLY Guide You Need To Read in 2021](https://rankmath.com/blog/schema-markup/)
+- [Power Words: The Art of Writing Headlines That Get Clicked](https://rankmath.com/blog/power-words//)
+- [How You Can Get Google To Crawl Your Website Instantly](https://rankmath.com/blog/google-indexing-api/)
+- [How to Get Bing to Index Your Content Instantly](https://rankmath.com/blog/bing-indexing-api/)
+- [SEO Audit](https://rankmath.com/blog/seo-audit/)
+
 
 ## License
 
