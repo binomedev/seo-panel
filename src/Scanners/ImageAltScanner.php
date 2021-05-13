@@ -4,18 +4,18 @@
 namespace Binomedev\SeoPanel\Scanners;
 
 
-use Binomedev\SeoPanel\CanBeSeoAnalyzed;
-use Binomedev\SeoPanel\Report;
+use Binomedev\SeoPanel\Contracts\CanBeSeoAnalyzed;
+use Binomedev\SeoPanel\Result;
 use Binomedev\SeoPanel\Scanner;
 use PHPHtmlParser\Dom;
 
 class ImageAltScanner extends Scanner
 {
 
-    public function scan(CanBeSeoAnalyzed $model): Report
+    public function scan(CanBeSeoAnalyzed $model): Result
     {
         $content = $model->getSeoAttribute('content');
-        $report = Report::make('Image Alt');
+        $report = Result::make('Image Alt');
 
         $dom = new Dom;
         $dom->loadStr($content);

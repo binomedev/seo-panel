@@ -94,11 +94,7 @@ analyzing.
 ```php
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-use Binomedev\SeoPanel\CanBeSeoAnalyzed;
-use Binomedev\SeoPanel\Traits\HasSeo;
+use Binomedev\SeoPanel\Contracts\CanBeSeoAnalyzed;use Binomedev\SeoPanel\Traits\HasSeo;use Illuminate\Database\Eloquent\Factories\HasFactory;use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model implements CanBeSeoAnalyzed
 {
@@ -301,9 +297,9 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 - [ ] H2 Heading
 - [X] Image ALT Attributes
 - [X] Keywords in Title & Description
-- [ ] Links Ratio
+- [X] Links Ratio
 - [X] Site Tagline
-- [ ] Permalink Structure
+- [X] Permalink Structure
 - [X] Focus Keywords
 - [X] Post Titles Missing Focus Keywords
 - [X] Count Internal, External and Dead Links

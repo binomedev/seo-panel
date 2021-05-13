@@ -4,7 +4,10 @@
 namespace Binomedev\SeoPanel\Traits;
 
 use Binomedev\SeoPanel\Models\Meta;
+use Binomedev\SeoPanel\Models\Report;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Str;
 
 /**
@@ -29,6 +32,7 @@ trait HasSeo
 
         static::deleting(function ($entity) {
             $entity->seoMeta()->delete();
+            $entity->seoReports()->delete();
         });
     }
 
@@ -44,7 +48,12 @@ trait HasSeo
         return Str::limit($content, $limit);
     }
 
-    public function seoMeta()
+    public function seoReports(): MorphMany
+    {
+        return $this->morphMany(Report::class, 'seoable');
+    }
+
+    public function seoMeta(): MorphOne
     {
         return $this->morphOne(Meta::class, 'seoable');
     }

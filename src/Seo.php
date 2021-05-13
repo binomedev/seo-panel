@@ -4,12 +4,18 @@ namespace Binomedev\SeoPanel;
 
 
 use Artesaos\SEOTools\SEOTools;
+use Binomedev\SeoPanel\Contracts\CanBeSeoAnalyzed;
+use Binomedev\SeoPanel\Contracts\CanInspect;
+use Binomedev\SeoPanel\Contracts\CanScan;
 use Binomedev\SeoPanel\Models\Option;
+use Binomedev\SeoPanel\Models\Report;
+use Binomedev\SeoPanel\Traits\HasSeo;
 use Illuminate\Support\Collection;
 
 class Seo
 {
     private array $scanners;
+    private $scannersCache;
     private array $inspectors;
     private $options = null;
     private SEOTools $tools;
@@ -101,9 +107,9 @@ class Seo
      * Inspects the website for generic SEO configuration
      *
      * @param string|CanInspect|null $inspector
-     * @return Collection|Report
+     * @return Collection|Result
      */
-    public function inspect(string|CanInspect $inspector = null): Collection|Report
+    public function inspect(string|CanInspect $inspector = null): Collection|Result
     {
         if (!is_null($inspector)) {
             if ($inspector instanceof CanInspect) {
@@ -116,7 +122,7 @@ class Seo
         return collect($this->inspectors)->map(fn($inspector) => app($inspector)->inspect());
     }
 
-    public function analyze(CanBeSeoAnalyzed|array $model, string|CanScan $scanner = null): Collection|Report
+    public function analyze(CanBeSeoAnalyzed|array $model, string|CanScan $scanner = null): Collection|Result
     {
         if (!$model->relationLoaded('seoMeta')) {
             $model->load('seoMeta');
@@ -131,8 +137,69 @@ class Seo
         }
 
         // Run tests
-        return collect($this->scanners)->map(fn($scanner) => app($scanner)->scan($model));
+        return $this->scanners()->map(fn($scanner) => app($scanner)->scan($model));
     }
 
+    private function scanners(): Collection
+    {
+        if (!$this->scannersCache) {
+            $this->scannersCache = collect($this->scanners);
+        }
+
+        return $this->scannersCache;
+    }
+
+    public function findReport($seoableId, $seoableType)
+    {
+        return Report::where('type', Report::TYPE_ANALYSIS)
+            ->where('seoable_id', $seoableId)
+            ->where('seoable_type', $seoableType)
+            ->latest()
+            ->first();
+    }
+
+    public function issueReport($seoable, Collection $results, $type): Report
+    {
+        $score = $this->calculateScore($results);
+
+        return $seoable->seoReports()->create([
+            'score' => $score,
+            'severity' => $this->calculateSeverity($score),
+            'type' => $type,
+            'results' => $results->toArray(),
+        ]);
+    }
+
+    public function calculateScore(Collection $results)
+    {
+        $maxScore = 100;
+
+        $total = $results->count();
+        $totalPassed = $results->filter(fn($result) => $result->isPassed())->count();
+        // How many passed of total: 10 tests = 100 score
+        return ($totalPassed / $total) * $maxScore;
+    }
+
+    public function calculateSeverity(int $score): string
+    {
+
+        // > 75 <= 100
+        if ($score > 75 && $score <= 100) {
+            return Report::SEVERITY_LOW;
+        }
+
+        //> 55 <= 75
+        if ($score > 55 && $score <= 75) {
+            return Report::SEVERITY_MEDIUM;
+        }
+
+        //  > 30 <= 55
+        if ($score > 30 && $score <= 55) {
+            return Report::SEVERITY_HIGH;
+        }
+
+        // <= 30
+        return Report::SEVERITY_CRITICAL;
+    }
 
 }

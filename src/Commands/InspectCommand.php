@@ -2,7 +2,7 @@
 
 namespace Binomedev\SeoPanel\Commands;
 
-use Binomedev\SeoPanel\Report;
+use Binomedev\SeoPanel\Result;
 use Binomedev\SeoPanel\Seo;
 use Illuminate\Console\Command;
 
@@ -16,15 +16,15 @@ class InspectCommand extends Command
     {
         $results = $seo->inspect();
 
-        $results->each(function (Report $report) {
+        $results->each(function (Result $result) {
             $output = $this->getOutput();
-            $output->section($report->name());
+            $output->section($result->name());
 
-            if ($report->isPassed()) {
-                $output->block($report->message(), 'OK', 'fg=green');
+            if ($result->isPassed()) {
+                $output->block($result->message(), 'OK', 'fg=green');
             } else {
-                $output->block($report->message(), 'WARNING', 'fg=red');
-                $output->text("> {$report->help()}");
+                $output->block($result->message(), 'WARNING', 'fg=red');
+                $output->text("> {$result->help()}");
             }
         });
 

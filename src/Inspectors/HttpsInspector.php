@@ -4,15 +4,15 @@
 namespace Binomedev\SeoPanel\Inspectors;
 
 use Binomedev\SeoPanel\Inspector;
-use Binomedev\SeoPanel\Report;
+use Binomedev\SeoPanel\Result;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Http;
 
 class HttpsInspector extends Inspector
 {
-    public function inspect(): Report
+    public function inspect(): Result
     {
-        $report = Report::make('Https Inspector');
+        $report = Result::make('Https Inspector');
 
         try {
             Http::get(url()->secure('/'));

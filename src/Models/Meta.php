@@ -11,10 +11,6 @@ class Meta extends Model
 
     protected $fillable = ['title', 'description', 'keywords', 'image', 'schema'];
 
-    protected $casts = [
-        'score' => 'int',
-    ];
-
     public function seoable()
     {
         return $this->morphTo();

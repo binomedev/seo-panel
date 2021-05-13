@@ -4,22 +4,23 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSeoOptionsTable extends Migration
+class CreateSeoReportsTable extends Migration
 {
     public function up()
     {
-        Schema::create('seo_reports_table', function (Blueprint $table) {
+        Schema::create('seo_reports', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('meta_id')->nullable();
-
+            $table->morphs('seoable');
+            $table->string('type');
+            $table->string('severity')->default('low');
+            $table->json('results')->nullable();
             $table->unsignedTinyInteger('score')->default(0);
-            $table->json('meta')->nullable();
             $table->timestamps();
         });
     }
 
     public function down() {
 
-        Schema::dropIfExists('seo_reports_table');
+        Schema::dropIfExists('seo_reports');
     }
 }

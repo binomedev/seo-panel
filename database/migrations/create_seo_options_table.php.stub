@@ -8,7 +8,7 @@ class CreateSeoOptionsTable extends Migration
 {
     public function up()
     {
-        Schema::create('seo_options_table', function (Blueprint $table) {
+        Schema::create('seo_options', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
             $table->string('value', 500)->nullable();
@@ -19,6 +19,6 @@ class CreateSeoOptionsTable extends Migration
 
     public function down() {
 
-        Schema::dropIfExists('seo_options_table');
+        Schema::dropIfExists('seo_options');
     }
 }

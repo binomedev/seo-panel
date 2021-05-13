@@ -8,13 +8,13 @@ class CreateSeoMetaTable extends Migration
 {
     public function up()
     {
-        Schema::create('seo_meta_table', function (Blueprint $table) {
+        Schema::create('seo_meta', function (Blueprint $table) {
             $table->id();
+            $table->morphs('seoable');
             $table->string('title')->nullable();
             $table->string('description', 500)->nullable();
             $table->string('keywords')->nullable();
             $table->string('image')->nullable();
-            $table->unsignedTinyInteger('score')->default(0);
             $table->string('schema')->nullable();
             $table->timestamps();
         });
@@ -22,6 +22,6 @@ class CreateSeoMetaTable extends Migration
 
     public function down() {
 
-        Schema::dropIfExists('seo_meta_table');
+        Schema::dropIfExists('seo_meta');
     }
 }

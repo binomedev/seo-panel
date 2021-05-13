@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Binomedev\SeoPanel;
+namespace Binomedev\SeoPanel\Contracts;
 
 use Illuminate\Database\Eloquent\Model;
 

@@ -3,15 +3,15 @@
 
 namespace Binomedev\SeoPanel\Scanners;
 
-use Binomedev\SeoPanel\CanBeSeoAnalyzed;
-use Binomedev\SeoPanel\Report;
+use Binomedev\SeoPanel\Contracts\CanBeSeoAnalyzed;
+use Binomedev\SeoPanel\Result;
 use Binomedev\SeoPanel\Scanner;
 
 class SchemaExistsScanner extends Scanner
 {
-    public function scan(CanBeSeoAnalyzed $model): Report
+    public function scan(CanBeSeoAnalyzed $model): Result
     {
-        $report = Report::make('Schema');
+        $report = Result::make('Schema');
         $schema = $model->seoMeta->schema;
 
         if (empty($schema)) {

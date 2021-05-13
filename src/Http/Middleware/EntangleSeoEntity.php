@@ -2,7 +2,7 @@
 
 namespace Binomedev\SeoPanel\Http\Middleware;
 
-use Binomedev\SeoPanel\CanBeSeoAnalyzed;
+use Binomedev\SeoPanel\Contracts\CanBeSeoAnalyzed;
 use Binomedev\SeoPanel\SeoFacade;
 use Closure;
 use Illuminate\Http\Request;

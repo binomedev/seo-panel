@@ -26,6 +26,7 @@ class SeoPanelServiceProvider extends PackageServiceProvider implements Deferrab
             ->hasMigrations([
                 'create_seo_options_table',
                 'create_seo_meta_table',
+                'create_seo_reports_table',
             ])
             ->hasCommands($this->commands);
     }

@@ -4,21 +4,21 @@
 namespace Binomedev\SeoPanel\Scanners;
 
 
-use Binomedev\SeoPanel\CanBeSeoAnalyzed;
-use Binomedev\SeoPanel\Report;
+use Binomedev\SeoPanel\Contracts\CanBeSeoAnalyzed;
+use Binomedev\SeoPanel\Result;
 use Binomedev\SeoPanel\Scanner;
 use PHPHtmlParser\Dom;
 
 class LinksScanner extends Scanner
 {
 
-    public function scan(CanBeSeoAnalyzed $model): Report
+    public function scan(CanBeSeoAnalyzed $model): Result
     {
         $content = $model->getSeoAttribute('content');
 
         $dom = new Dom;
         $dom->loadStr($content);
-        $report = Report::make('Links Scanner');
+        $report = Result::make('Links Scanner');
 
         $tags = $dom->find('a');
         $countDeadLinks = 0;

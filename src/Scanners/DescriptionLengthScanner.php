@@ -3,15 +3,15 @@
 
 namespace Binomedev\SeoPanel\Scanners;
 
-use Binomedev\SeoPanel\CanBeSeoAnalyzed;
-use Binomedev\SeoPanel\Report;
+use Binomedev\SeoPanel\Contracts\CanBeSeoAnalyzed;
+use Binomedev\SeoPanel\Result;
 use Binomedev\SeoPanel\Scanner;
 
 class DescriptionLengthScanner extends Scanner
 {
-    public function scan(CanBeSeoAnalyzed $model): Report
+    public function scan(CanBeSeoAnalyzed $model): Result
     {
-        $report = Report::make('Description Length', status: false)
+        $report = Result::make('Description Length', status: false)
             ->message('Seo description should have has less than 160 characters.');
 
 

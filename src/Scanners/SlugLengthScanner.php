@@ -3,15 +3,15 @@
 
 namespace Binomedev\SeoPanel\Scanners;
 
-use Binomedev\SeoPanel\CanBeSeoAnalyzed;
-use Binomedev\SeoPanel\Report;
+use Binomedev\SeoPanel\Contracts\CanBeSeoAnalyzed;
+use Binomedev\SeoPanel\Result;
 use Binomedev\SeoPanel\Scanner;
 
 class SlugLengthScanner extends Scanner
 {
-    public function scan(CanBeSeoAnalyzed $model): Report
+    public function scan(CanBeSeoAnalyzed $model): Result
     {
-        $report = Report::make('Slug Length')->message('Slug length should be less than 76 characters');
+        $report = Result::make('Slug Length')->message('Slug length should be less than 76 characters');
         $slug = $model->getSeoAttribute('slug');
 
         // Check slug length to be less than 76 characters

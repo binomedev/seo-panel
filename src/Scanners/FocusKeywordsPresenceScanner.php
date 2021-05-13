@@ -3,20 +3,20 @@
 
 namespace Binomedev\SeoPanel\Scanners;
 
-use Binomedev\SeoPanel\CanBeSeoAnalyzed;
-use Binomedev\SeoPanel\Report;
+use Binomedev\SeoPanel\Contracts\CanBeSeoAnalyzed;
+use Binomedev\SeoPanel\Result;
 use Binomedev\SeoPanel\Scanner;
 
 class FocusKeywordsPresenceScanner extends Scanner
 {
-    public function scan(CanBeSeoAnalyzed $model): Report
+    public function scan(CanBeSeoAnalyzed $model): Result
     {
         $meta = $model->seoMeta()->first();
 
         if (empty($meta->keywords)) {
             // Fail
             // Stop testing for keywords presence
-            return Report::failed('Focus Keywords Exists')
+            return Result::failed('Focus Keywords Exists')
                 ->message('There are no focus keywords set.');
         }
 
@@ -36,7 +36,7 @@ class FocusKeywordsPresenceScanner extends Scanner
         ];
 
         // Check if focus keyword is present in slug, title, content
-        $report = Report::make('Focus Keywords Presence');
+        $report = Result::make('Focus Keywords Presence');
         $keywords = $meta->keywordsList;
         $group = [];
         foreach ($keywords as $keyword) {
@@ -60,6 +60,9 @@ class FocusKeywordsPresenceScanner extends Scanner
             return $report->status(passed: true)->message('Focus keywords are found everywhere.');
         }
 
-        return $report->message("Focus keywords not found in following fields")->meta($group);
+
+
+        $missingKeywords = collect($group)->flatten()->implode(', ');
+        return $report->message("Focus keywords not found in following fields: {$missingKeywords}")->meta($group);
     }
 }

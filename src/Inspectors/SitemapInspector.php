@@ -4,14 +4,14 @@
 namespace Binomedev\SeoPanel\Inspectors;
 
 use Binomedev\SeoPanel\Inspector;
-use Binomedev\SeoPanel\Report;
+use Binomedev\SeoPanel\Result;
 use Illuminate\Support\Facades\Http;
 
 class SitemapInspector extends Inspector
 {
-    public function inspect(): Report
+    public function inspect(): Result
     {
-        $report = Report::make('Sitemap Inspector');
+        $report = Result::make('Sitemap Inspector');
 
         if ($this->checkFileNotExists()) {
             return $report
