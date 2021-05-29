@@ -3,6 +3,9 @@
 
 namespace Binomedev\SeoPanel\Traits;
 
+use Binomedev\SeoPanel\DataObjects\EntityDTO;
+use Binomedev\SeoPanel\Jobs\Entity\CreateRequest;
+use Binomedev\SeoPanel\Jobs\Entity\DeleteRequest;
 use Binomedev\SeoPanel\Models\Meta;
 use Binomedev\SeoPanel\Models\Report;
 use Illuminate\Database\Eloquent\Model;
@@ -26,11 +29,16 @@ trait HasSeo
         static::created(function ($entity) {
             $entity->seoMeta()->create([
                 'title' => $entity->getSeoAttribute('title'),
-                'description' => $entity->makeDescriptionFromContent($entity->getSeoAttribute('content')),
+                'description' => self::makeDescriptionFromContent($entity->getSeoAttribute('content')),
             ]);
+
+            dispatch(new CreateRequest($entity->toDataTransferObject()));
         });
 
         static::deleting(function ($entity) {
+
+            dispatch(new DeleteRequest($entity->toDataTransferObject()));
+
             $entity->seoMeta()->delete();
             $entity->seoReports()->delete();
         });
@@ -46,6 +54,22 @@ trait HasSeo
         $content = strip_tags(htmlspecialchars_decode($content));
 
         return Str::limit($content, $limit);
+    }
+
+    public function toDataTransferObject(): EntityDTO
+    {
+        $meta = $this->seoMeta;
+
+        return new EntityDTO([
+            'external_id' => $this->getKey(),
+            'title' => $this->getSeoAttribute('title'),
+            'content' => $this->getSeoAttribute('content'),
+            'slug' => $this->getSeoAttribute('slug'),
+            'seo_title' => optional($meta)->title,
+            'seo_description' => optional($meta)->description,
+            'seo_keywords' =>optional( $meta)->keywordsList,
+            'schema' =>optional( $meta)->schema,
+        ]);
     }
 
     public function seoReports(): MorphMany

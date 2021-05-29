@@ -9,7 +9,7 @@ use Binomedev\SeoPanel\Contracts\CanInspect;
 use Binomedev\SeoPanel\Contracts\CanScan;
 use Binomedev\SeoPanel\Models\Option;
 use Binomedev\SeoPanel\Models\Report;
-use Binomedev\SeoPanel\Traits\HasSeo;
+use Binomedev\SeoPanel\ValueObjects\Score;
 use Illuminate\Support\Collection;
 
 class Seo
@@ -160,46 +160,13 @@ class Seo
 
     public function issueReport($seoable, Collection $results, $type): Report
     {
-        $score = $this->calculateScore($results);
+        $score = Score::make()->calculate($results);
 
         return $seoable->seoReports()->create([
-            'score' => $score,
-            'severity' => $this->calculateSeverity($score),
+            'score' => $score->value(),
+            'severity' => $score->severity(),
             'type' => $type,
             'results' => $results->toArray(),
         ]);
     }
-
-    public function calculateScore(Collection $results)
-    {
-        $maxScore = 100;
-
-        $total = $results->count();
-        $totalPassed = $results->filter(fn($result) => $result->isPassed())->count();
-        // How many passed of total: 10 tests = 100 score
-        return ($totalPassed / $total) * $maxScore;
-    }
-
-    public function calculateSeverity(int $score): string
-    {
-
-        // > 75 <= 100
-        if ($score > 75 && $score <= 100) {
-            return Report::SEVERITY_LOW;
-        }
-
-        //> 55 <= 75
-        if ($score > 55 && $score <= 75) {
-            return Report::SEVERITY_MEDIUM;
-        }
-
-        //  > 30 <= 55
-        if ($score > 30 && $score <= 55) {
-            return Report::SEVERITY_HIGH;
-        }
-
-        // <= 30
-        return Report::SEVERITY_CRITICAL;
-    }
-
 }

@@ -2,19 +2,20 @@
 
 namespace Binomedev\SeoPanel;
 
-use Binomedev\SeoPanel\Commands\{GenerateSitemapCommand, InspectCommand, InstallCommand};
+use Binomedev\SeoPanel\Commands\{GenerateSitemapCommand, InspectCommand, InstallCommand, PingCommand};
 use Binomedev\SeoPanel\Http\Middleware\{EntangleSeoEntity, InjectSeoTags, SetDefaultSeoTags};
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Spatie\LaravelPackageTools\{Package, PackageServiceProvider};
 
-class SeoPanelServiceProvider extends PackageServiceProvider implements DeferrableProvider
+class SeoPanelServiceProvider extends PackageServiceProvider
 {
 
     protected $commands = [
         InspectCommand::class,
         GenerateSitemapCommand::class,
         InstallCommand::class,
+        PingCommand::class,
     ];
 
     public function configurePackage(Package $package): void
@@ -23,10 +24,12 @@ class SeoPanelServiceProvider extends PackageServiceProvider implements Deferrab
             ->name('seo')
             ->hasConfigFile()
             ->hasViews()
+            //->hasRoute('web')
             ->hasMigrations([
                 'create_seo_options_table',
                 'create_seo_meta_table',
                 'create_seo_reports_table',
+               // 'create_seo_not_found_logs_table',
             ])
             ->hasCommands($this->commands);
     }
@@ -47,15 +50,10 @@ class SeoPanelServiceProvider extends PackageServiceProvider implements Deferrab
     public function packageRegistered()
     {
         $this->app->singleton(Seo::class);
-    }
+        $this->app->singleton(Sorcery::class, function(){
+            $config = config('services.seo_sorcery');
 
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [Seo::class];
+            return new Sorcery($config['token'], $config['url']);
+        });
     }
 }
