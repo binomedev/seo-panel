@@ -5,7 +5,6 @@ namespace Binomedev\SeoPanel;
 use Binomedev\SeoPanel\Commands\{GenerateSitemapCommand, InspectCommand, InstallCommand, PingCommand};
 use Binomedev\SeoPanel\Http\Middleware\{EntangleSeoEntity, InjectSeoTags, SetDefaultSeoTags};
 use Illuminate\Contracts\Http\Kernel;
-use Illuminate\Contracts\Support\DeferrableProvider;
 use Spatie\LaravelPackageTools\{Package, PackageServiceProvider};
 
 class SeoPanelServiceProvider extends PackageServiceProvider
@@ -29,7 +28,7 @@ class SeoPanelServiceProvider extends PackageServiceProvider
                 'create_seo_options_table',
                 'create_seo_meta_table',
                 'create_seo_reports_table',
-               // 'create_seo_not_found_logs_table',
+                // 'create_seo_not_found_logs_table',
             ])
             ->hasCommands($this->commands);
     }
@@ -50,7 +49,7 @@ class SeoPanelServiceProvider extends PackageServiceProvider
     public function packageRegistered()
     {
         $this->app->singleton(Seo::class);
-        $this->app->singleton(Sorcery::class, function(){
+        $this->app->singleton(Sorcery::class, function () {
             $config = config('services.seo_sorcery');
 
             return new Sorcery($config['token'], $config['url']);

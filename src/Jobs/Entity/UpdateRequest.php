@@ -4,21 +4,19 @@
 namespace Binomedev\SeoPanel\Jobs\Entity;
 
 
-use App\Notifications\EntityUpdated;
-use Binomedev\SeoPanel\DataObjects\EntityDTO;
 use Binomedev\SeoPanel\Jobs\Job;
 use Binomedev\SeoPanel\Sorcery;
-use Illuminate\Support\Facades\Log;
+use CodrinAxinte\SorceryCore\DataObjects\EntityData;
 
 class UpdateRequest extends Job
 {
-    private EntityDTO $entity;
+    private EntityData $entity;
 
     /**
      * UpdateRequest constructor.
-     * @param EntityDTO $entity
+     * @param EntityData $entity
      */
-    public function __construct(EntityDTO $entity)
+    public function __construct(EntityData $entity)
     {
         $this->entity = $entity;
     }

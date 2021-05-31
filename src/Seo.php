@@ -4,21 +4,18 @@ namespace Binomedev\SeoPanel;
 
 
 use Artesaos\SEOTools\SEOTools;
-use Binomedev\SeoPanel\Contracts\CanBeSeoAnalyzed;
-use Binomedev\SeoPanel\Contracts\CanInspect;
-use Binomedev\SeoPanel\Contracts\CanScan;
 use Binomedev\SeoPanel\Models\Option;
 use Binomedev\SeoPanel\Models\Report;
-use Binomedev\SeoPanel\ValueObjects\Score;
+use CodrinAxinte\SorceryCore\Contracts\CanBeSeoAnalyzed;
+use CodrinAxinte\SorceryCore\ValueObjects\Score;
 use Illuminate\Support\Collection;
 
 class Seo
 {
-    private array $scanners;
-    private $scannersCache;
-    private array $inspectors;
+
     private $options = null;
     private SEOTools $tools;
+
 
     /**
      * Seo constructor.
@@ -28,31 +25,6 @@ class Seo
     {
         $this->tools = $tools;
 
-        $this->scanners = config('seo.scanners', []);
-        $this->inspectors = config('seo.inspectors', []);
-    }
-
-    public function registerInspector(string|array $inspectors): static
-    {
-        return $this->registerService($inspectors, $this->inspectors);
-    }
-
-    private function registerService(string|array $items, &$iterable): static
-    {
-        if (is_array($items)) {
-            $iterable = array_merge($iterable, $items);
-
-            return $this;
-        }
-
-        $iterable[] = $items;
-
-        return $this;
-    }
-
-    public function registerScanner(string|array $scanners): static
-    {
-        return $this->registerService($scanners, $this->scanners);
     }
 
     public function tools(): SEOTools
@@ -88,65 +60,19 @@ class Seo
 
     public function entangle(CanBeSeoAnalyzed $entity): static
     {
-        if ($entity->relationLoaded('seoMeta')) {
-            $entity->load('seoMeta');
+        if ($entity->relationLoaded('seo')) {
+            $entity->load('seo');
         }
 
-        $meta = $entity->seoMeta;
+        $seo = $entity->seo;
 
-        $this->tools->setTitle($meta->title);
-        $this->tools->setDescription($meta->description);
-        $this->tools->metatags()->setKeywords($meta->keywords);
+        $this->tools->setTitle($seo->title);
+        $this->tools->setDescription($seo->description);
+        $this->tools->metatags()->setKeywords($seo->keywords);
 
         // TODO: Should add more tags generated such as Schema, jsonLd, Images, etc
 
         return $this;
-    }
-
-    /**
-     * Inspects the website for generic SEO configuration
-     *
-     * @param string|CanInspect|null $inspector
-     * @return Collection|Result
-     */
-    public function inspect(string|CanInspect $inspector = null): Collection|Result
-    {
-        if (!is_null($inspector)) {
-            if ($inspector instanceof CanInspect) {
-                return $inspector->inspect();
-            }
-
-            return app($inspector)->inspect();
-        }
-
-        return collect($this->inspectors)->map(fn($inspector) => app($inspector)->inspect());
-    }
-
-    public function analyze(CanBeSeoAnalyzed|array $model, string|CanScan $scanner = null): Collection|Result
-    {
-        if (!$model->relationLoaded('seoMeta')) {
-            $model->load('seoMeta');
-        }
-
-        if (!is_null($scanner)) {
-            if ($scanner instanceof CanScan) {
-                return $scanner->scan($model);
-            }
-
-            return app($scanner)->scan($model);
-        }
-
-        // Run tests
-        return $this->scanners()->map(fn($scanner) => app($scanner)->scan($model));
-    }
-
-    private function scanners(): Collection
-    {
-        if (!$this->scannersCache) {
-            $this->scannersCache = collect($this->scanners);
-        }
-
-        return $this->scannersCache;
     }
 
     public function findReport($seoableId, $seoableType)

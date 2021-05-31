@@ -1,14 +1,6 @@
 <?php
 
-use Binomedev\SeoPanel\Inspectors\{HttpsInspector, SitemapInspector};
-use Binomedev\SeoPanel\Scanners\{ContentMinLengthScanner,
-    DescriptionLengthScanner,
-    FocusKeywordsPresenceScanner,
-    ImageAltScanner,
-    LinksScanner,
-    SchemaExistsScanner,
-    SlugLengthScanner,
-    TitleLengthScanner};
+
 
 return [
 
@@ -37,28 +29,5 @@ return [
         'telescope*',
         'horizon*',
         'nova*',
-    ],
-
-
-    /**
-     *
-     */
-    'inspectors' => [
-        SitemapInspector::class,
-        HttpsInspector::class,
-    ],
-
-    /**
-     *
-     */
-    'scanners' => [
-        TitleLengthScanner::class,
-        DescriptionLengthScanner::class,
-        SlugLengthScanner::class,
-        ContentMinLengthScanner::class,
-        SchemaExistsScanner::class,
-        FocusKeywordsPresenceScanner::class,
-        ImageAltScanner::class,
-        LinksScanner::class,
     ],
 ];

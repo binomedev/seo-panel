@@ -4,20 +4,21 @@
 namespace Binomedev\SeoPanel\Jobs\Entity;
 
 
-use Binomedev\SeoPanel\DataObjects\EntityDTO;
+
 use Binomedev\SeoPanel\Jobs\Job;
 use Binomedev\SeoPanel\Sorcery;
+use CodrinAxinte\SorceryCore\DataObjects\EntityData;
 
 class DeleteRequest extends Job
 {
 
-    private EntityDTO $entity;
+    private EntityData $entity;
 
     /**
      * CreateEntityRequest constructor.
-     * @param EntityDTO $entity
+     * @param EntityData $entity
      */
-    public function __construct(EntityDTO $entity)
+    public function __construct(EntityData $entity)
     {
         $this->entity = $entity;
     }

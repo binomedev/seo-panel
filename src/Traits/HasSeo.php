@@ -3,15 +3,16 @@
 
 namespace Binomedev\SeoPanel\Traits;
 
-use Binomedev\SeoPanel\DataObjects\EntityDTO;
-use Binomedev\SeoPanel\Jobs\Entity\CreateRequest;
-use Binomedev\SeoPanel\Jobs\Entity\DeleteRequest;
-use Binomedev\SeoPanel\Models\Meta;
-use Binomedev\SeoPanel\Models\Report;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Binomedev\SeoPanel\{Jobs\Entity\CreateRequest,
+    Jobs\Entity\DeleteRequest,
+    Jobs\Entity\UpdateRequest,
+    Models\Meta,
+    Models\Report
+};
+use CodrinAxinte\SorceryCore\DataObjects\EntityData;
+use Illuminate\Database\{Eloquent\Model, Eloquent\Relations\MorphMany, Eloquent\Relations\MorphOne};
 use Illuminate\Support\Str;
+use PHPHtmlParser\Exceptions\Tag\AttributeNotFoundException;
 
 /**
  * Trait HasSeo
@@ -20,26 +21,33 @@ use Illuminate\Support\Str;
  */
 trait HasSeo
 {
-    private string $titleField = 'title';
-    private string $slugField = 'slug';
-    private string $contentField = 'content';
+    private array $seoAttributesMap = [
+        'title' => 'title',
+        'slug' => 'slug',
+        'content' => 'content',
+    ];
 
     public static function bootHasSeo()
     {
         static::created(function ($entity) {
-            $entity->seoMeta()->create([
-                'title' => $entity->getSeoAttribute('title'),
-                'description' => self::makeDescriptionFromContent($entity->getSeoAttribute('content')),
+            $entity->seo()->create([
+                'title' => $entity->getSeoAttributeValue('title'),
+                'description' => self::makeDescriptionFromContent($entity->getSeoAttributeValue('content')),
+                'schema' => 'article',
             ]);
 
             dispatch(new CreateRequest($entity->toDataTransferObject()));
+        });
+
+        static::updated(function ($entity) {
+            dispatch(new UpdateRequest($entity->toDataTransferObject()));
         });
 
         static::deleting(function ($entity) {
 
             dispatch(new DeleteRequest($entity->toDataTransferObject()));
 
-            $entity->seoMeta()->delete();
+            $entity->seo()->delete();
             $entity->seoReports()->delete();
         });
     }
@@ -56,20 +64,56 @@ trait HasSeo
         return Str::limit($content, $limit);
     }
 
-    public function toDataTransferObject(): EntityDTO
+    public function toDataTransferObject(): EntityData
     {
-        $meta = $this->seoMeta;
+        // TODO: Refactor this into a dedicated class like a Transformer or Resource.
+        $seo = $this->seo;
 
-        return new EntityDTO([
+        return new EntityData([
             'external_id' => $this->getKey(),
-            'title' => $this->getSeoAttribute('title'),
-            'content' => $this->getSeoAttribute('content'),
-            'slug' => $this->getSeoAttribute('slug'),
-            'seo_title' => optional($meta)->title,
-            'seo_description' => optional($meta)->description,
-            'seo_keywords' =>optional( $meta)->keywordsList,
-            'schema' =>optional( $meta)->schema,
+            'title' => optional($seo)->title ?? $this->getSeoAttributeValue('title'),
+            'content' => $this->getSeoAttributeValue('content'),
+            'slug' => $this->getSeoAttributeValue('slug'),
+            'description' => optional($seo)->description,
+            'keywords' => optional($seo)->keywordsList,
+            'schema' => optional($seo)->schema,
+            'url' => $this->getShowUrl(),
+            'custom' => $this->serializeCustomAttributes(),
         ]);
+    }
+
+    public function getSeoAttributeValue($field)
+    {
+        return $this->getAttribute($this->getSeoAttributeName($field));
+    }
+
+    public function getSeoAttributeName($field)
+    {
+        if (!array_key_exists($field, $this->seoAttributesMap)) {
+            throw new AttributeNotFoundException("The seo '{$field}' attribute does not exist.");
+        }
+
+        return $this->seoAttributesMap[$field];
+    }
+
+    private function serializeCustomAttributes(): ?array
+    {
+        $customAttributes = $this->mapSeoCustomAttributes();
+
+        if (empty($customAttributes)) {
+            return null;
+        }
+
+        return collect($customAttributes)
+            ->mapWithKeys(
+                fn($attributeName) => [$attributeName => $this->getAttribute($attributeName)]
+            )
+            ->toArray();
+    }
+
+    public function mapSeoCustomAttributes(): array
+    {
+        return [];
     }
 
     public function seoReports(): MorphMany
@@ -77,40 +121,15 @@ trait HasSeo
         return $this->morphMany(Report::class, 'seoable');
     }
 
-    public function seoMeta(): MorphOne
+    public function seo(): MorphOne
     {
         return $this->morphOne(Meta::class, 'seoable');
     }
 
-    public function getSeoAttribute($field)
+    protected function setSeoField($field, $value): static
     {
-        return $this->getAttribute($this->getSeoField($field));
-    }
-
-    public function getSeoField($field)
-    {
-        return $this->{$field . 'Field'};
-    }
-
-    protected function setSeoTitleField($columnName): static
-    {
-        return $this->setSeoField('title', $columnName);
-    }
-
-    protected function setSeoField($field, $value)
-    {
-        $this->{$field . 'Field'} = $value;
+        $this->seoAttributesMap[$field] = $value;
 
         return $this;
-    }
-
-    protected function setSeoSlugField($columnName): static
-    {
-        return $this->setSeoField('slug', $columnName);
-    }
-
-    protected function setSeoContentField($columnName): static
-    {
-        return $this->setSeoField('content', $columnName);
     }
 }

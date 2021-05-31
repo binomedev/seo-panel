@@ -182,9 +182,9 @@ class PageController extends Controller {
     { 
         // ...
      
-        $this->seo()->setTitle($post->seoMeta->title);
-        $this->seo()->setDescription($post->seoMeta->description);
-        $this->seo()->metatags()->setKeywords($post->seoMeta->keywords);
+        $this->seo()->setTitle($post->seo->title);
+        $this->seo()->setDescription($post->seo->description);
+        $this->seo()->metatags()->setKeywords($post->seo->keywords);
         
         // ... 
     }

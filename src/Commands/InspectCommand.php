@@ -2,8 +2,9 @@
 
 namespace Binomedev\SeoPanel\Commands;
 
-use Binomedev\SeoPanel\Result;
-use Binomedev\SeoPanel\Seo;
+
+use CodrinAxinte\SorceryCore\Result;
+use CodrinAxinte\SorceryCore\Services\SorceryCore;
 use Illuminate\Console\Command;
 
 class InspectCommand extends Command
@@ -12,9 +13,9 @@ class InspectCommand extends Command
 
     public $description = 'Runs all inspectors against your website.';
 
-    public function handle(Seo $seo)
+    public function handle(SorceryCore $sorceryCore)
     {
-        $results = $seo->inspect();
+        $results = $sorceryCore->inspect();
 
         $results->each(function (Result $result) {
             $output = $this->getOutput();
